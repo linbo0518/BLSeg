@@ -23,6 +23,11 @@ class UNet(nn.Module):
         self.up_block1 = UpBlock(128, 64)
         self.outputs = nn.Conv2d(64, num_classes, 1, bias=False)
 
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(
+                    m.weight, mode='fan_out', nonlinearity='relu')
+
     def forward(self, x):
         e1 = self.inputs(x)
         e2 = self.down_block1(e1)
