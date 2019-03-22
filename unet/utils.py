@@ -3,9 +3,8 @@ from torch import nn
 import torch.nn.functional as F
 
 
-def conv3x3(in_ch, out_ch, stride=1, padding=1):
-    return nn.Conv2d(
-        in_ch, out_ch, 3, stride=stride, padding=padding, bias=False)
+def conv3x3(in_ch, out_ch, stride=1):
+    return nn.Conv2d(in_ch, out_ch, 3, stride=stride, padding=1, bias=False)
 
 
 class DownBlock(nn.Module):
