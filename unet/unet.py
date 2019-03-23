@@ -1,11 +1,13 @@
 import torch
 from torch import nn
-from utils import conv3x3, DownBlock, UpBlock
+import torch.nn.functional as F
+from utils import conv3x3, DownBlock, UpBlock, ResidualBlock, DecodeBlock
+from backbone import ResNet34
 
 
 class UNet(nn.Module):
 
-    def __init__(self, in_ch, num_classes=1):
+    def __init__(self, in_ch=3, num_classes=1):
         super(UNet, self).__init__()
         self.inputs = nn.Sequential(
             conv3x3(in_ch, 64),
@@ -38,4 +40,32 @@ class UNet(nn.Module):
         d3 = self.up_block3(e3, d4)
         d2 = self.up_block2(e2, d3)
         d1 = self.up_block1(e1, d2)
+        return self.outputs(d1)
+
+
+class ResUNet(nn.Module):
+
+    def __init__(self, num_classes=1):
+        super(ResUNet, self).__init__()
+        self.encoder = ResNet34()
+        self.center = ResidualBlock(512, 1024, 2)
+        self.decoder4 = DecodeBlock(1024, 512)
+        self.decoder3 = DecodeBlock(512, 256)
+        self.decoder2 = DecodeBlock(256, 128)
+        self.decoder1 = DecodeBlock(128, 64)
+        self.outputs = nn.Conv2d(64, num_classes, 1, bias=False)
+
+    def forward(self, x):
+        e0 = self.encoder.stage0(x)
+        e1 = self.encoder.stage1(e0)
+        e2 = self.encoder.stage2(e1)
+        e3 = self.encoder.stage3(e2)
+        e4 = self.encoder.stage4(e3)
+        e5 = self.center(e4)
+        d4 = self.decoder4(e4, e5)
+        d3 = self.decoder3(e3, d4)
+        d2 = self.decoder2(e2, d3)
+        d1 = self.decoder1(e1, d2)
+        d1 = F.interpolate(
+            d1, scale_factor=2, mode='bilinear', align_corners=False)
         return self.outputs(d1)
