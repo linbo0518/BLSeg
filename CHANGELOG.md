@@ -1,3 +1,9 @@
+#### 2019.03.23
+
+* change UNet in_ch=3 and add ResUNet
+* add ResNet34 backbone to unet
+* add ResidualBlock and DecodeBlock
+    
 #### 2019.03.22
 
 * update .gitignore
