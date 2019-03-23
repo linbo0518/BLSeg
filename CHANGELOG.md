@@ -1,3 +1,9 @@
+#### 2019.03.22
+
+* update .gitignore
+* del padding arg in conv3x3
+* use kaiming normal initializer for unet
+
 #### 2019.03.21
 
 * first init
