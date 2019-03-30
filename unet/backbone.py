@@ -12,14 +12,11 @@ class ResNet34(nn.Module):
             nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            # nn.MaxPool2d(3, stride=2, padding=1),
         )
         self.stage1 = self._add_stage(ResidualBlock, 64, 3)
         self.stage2 = self._add_stage(ResidualBlock, 128, 4)
         self.stage3 = self._add_stage(ResidualBlock, 256, 6)
         self.stage4 = self._add_stage(ResidualBlock, 512, 3)
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.out = nn.Linear(512, 1000)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -35,9 +32,6 @@ class ResNet34(nn.Module):
         x = self.stage2(x)
         x = self.stage3(x)
         x = self.stage4(x)
-        x = self.avgpool(x)
-        x = x.view(x.size(0), -1)
-        x = self.out(x)
         return x
 
     def _add_stage(self, block, channel, repeat):
