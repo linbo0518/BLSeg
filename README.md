@@ -24,3 +24,9 @@ PyTorch implementation of Semantic Segmentation Model
 * VGG16 and ResNet34 for FCN
 * ResNet34 for Res U-Net
 * Modified Aligned Xception for DeepLab v3+
+
+---
+
+#### Changelog
+
+[more info](https://github.com/linbo0518/LLSeg/blob/master/CHANGELOG.md)
