@@ -1,3 +1,9 @@
+#### 2019.04.04
+
+* add [FCN](https://arxiv.org/abs/1411.4038)
+* add VGG16 and ResNet34 backbone to FCN
+* refactor ResNet34's _add_stage function to make it more flex
+
 #### 2019.03.31
 
 * use kaiming normal initializer for ResUNet
