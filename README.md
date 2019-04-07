@@ -21,7 +21,7 @@ PyTorch implementation of Semantic Segmentation Model
 
 #### Support Backbone
 
-* VGG16 and ResNet34 for FCN
+* MobilenNetV1, VGG16 and ResNet34 for FCN
 * ResNet34 for Res U-Net
 * Modified Aligned Xception for DeepLab v3+
 
