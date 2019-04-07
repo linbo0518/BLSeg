@@ -1,3 +1,10 @@
+#### 2019.04.07
+
+* add [MobileNet v1](https://arxiv.org/abs/1704.04861) backbone to FCN
+* fix minor bugs
+
+---
+
 #### 2019.04.04
 
 * add [FCN](https://arxiv.org/abs/1411.4038)
@@ -9,7 +16,7 @@
 #### 2019.03.31
 
 * use kaiming normal initializer for ResUNet
-* add [deeplabv3+](https://arxiv.org/abs/1802.02611)
+* add [DeepLab v3+](https://arxiv.org/abs/1802.02611)
 * clean code
 
 ---
