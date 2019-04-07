@@ -1,22 +1,34 @@
 import torch
 from torch import nn
-from backbone import VGG16, ResNet34
+from backbone import MobileNetV1, VGG16, ResNet34
 
 
 class FCN(nn.Module):
 
     def __init__(self, backbone='vgg16', num_classes=1):
-        assert backbone == 'vgg16' or backbone == 'resnet34'
+        assert backbone == 'vgg16' or backbone == 'resnet34' or backbone == 'mobilenetv1'
         super(FCN, self).__init__()
         if backbone == 'vgg16':
             self.backbone = VGG16()
-        else:
+            self.fc_in_ch = 512
+            self.score_pool4_in_ch = 512
+            self.score_pool3_in_ch = 256
+        elif backbone == 'resnet34':
             self.backbone = ResNet34()
+            self.fc_in_ch = 512
+            self.score_pool4_in_ch = 256
+            self.score_pool3_in_ch = 128
+        elif backbone == 'mobilenetv1':
+            self.backbone = MobileNetV1()
+            self.fc_in_ch = 1024
+            self.score_pool4_in_ch = 512
+            self.score_pool3_in_ch = 256
+
         self.backbone.stage0[0].padding = (
             self.backbone.stage0[0].padding[0] + 99,
             self.backbone.stage0[0].padding[1] + 99)
         self.fc = nn.Sequential(
-            nn.Conv2d(512, 4096, 7, bias=False),
+            nn.Conv2d(self.fc_in_ch, 4096, 7, bias=False),
             nn.ReLU(inplace=True),
             nn.Dropout2d(),
             nn.Conv2d(4096, 4096, 1, bias=False),
@@ -25,8 +37,10 @@ class FCN(nn.Module):
         )
 
         self.score_fc = nn.Conv2d(4096, num_classes, 1, bias=False)
-        self.score_pool4 = nn.Conv2d(512, num_classes, 1, bias=False)
-        self.score_pool3 = nn.Conv2d(256, num_classes, 1, bias=False)
+        self.score_pool4 = nn.Conv2d(
+            self.score_pool4_in_ch, num_classes, 1, bias=False)
+        self.score_pool3 = nn.Conv2d(
+            self.score_pool3_in_ch, num_classes, 1, bias=False)
 
         self.score2 = nn.ConvTranspose2d(
             num_classes, num_classes, 4, stride=2, bias=False)
@@ -44,25 +58,18 @@ class FCN(nn.Module):
         out = self.fc(out)
         out = self.score_fc(out)
         score2 = self.score2(out)
-        print(score2.shape)
 
         score_pool4 = self.score_pool4(pool4_out)
-        print(score_pool4.shape)
         score_pool4 = score_pool4[:, :, 5:5 + score2.size(2), 5:5 +
                                   score2.size(3)]
-        print(score_pool4.shape)
         fuse1 = score2 + score_pool4
         score4 = self.score4(fuse1)
-        print(score4.shape)
 
         score_pool3 = self.score_pool3(pool3_out)
-        print(score_pool3.shape)
         score_pool3 = score_pool3[:, :, 9:9 + score4.size(2), 9:9 +
                                   score4.size(3)]
-        print(score_pool3.shape)
         fuse2 = score4 + score_pool3
         score8 = self.score8(fuse2)
-        print(score8.shape)
+
         x = score8[:, :, 31:31 + x.size(2), 31:31 + x.size(3)]
-        print(x.shape)
         return x
