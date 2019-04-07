@@ -1,6 +1,40 @@
 import torch
 from torch import nn
-from utils import conv3x3, ResidualBlock
+from utils import conv3x3, DepthwiseSeparableConv, ResidualBlock
+
+
+class MobileNetV1(nn.Module):
+
+    def __init__(self):
+        super(MobileNetV1, self).__init__()
+        self.stage0 = nn.Sequential(
+            conv3x3(3, 32, 2),
+            nn.BatchNorm2d(32),
+            nn.ReLU6(inplace=True),
+            DepthwiseSeparableConv(32, 64, 1),
+        )
+        self.stage1 = self._add_stage(64, 128, 2)
+        self.stage2 = self._add_stage(128, 256, 2)
+        self.stage3 = self._add_stage(256, 512, 6)
+        self.stage4 = self._add_stage(512, 1024, 2)
+
+    def forward(self, x):
+        x = self.stage0(x)
+        x = self.stage1(x)
+        x = self.stage2(x)
+        print(x.shape)
+        x = self.stage3(x)
+        print(x.shape)
+        x = self.stage4(x)
+        print(x.shape)
+        return x
+
+    def _add_stage(self, in_ch, out_ch, repeat_time):
+        assert repeat_time > 0 and isinstance(repeat_time, int)
+        layers = [DepthwiseSeparableConv(in_ch, out_ch, 2)]
+        for _ in range(repeat_time - 1):
+            layers.append(DepthwiseSeparableConv(out_ch, out_ch))
+        return nn.Sequential(*layers)
 
 
 class VGG16(nn.Module):
@@ -73,9 +107,9 @@ class ResNet34(nn.Module):
         x = self.stage4(x)
         return x
 
-    def _add_stage(self, block, in_ch, out_ch, stride, repeat_times):
-        assert repeat_times > 0 and isinstance(repeat_times, int)
+    def _add_stage(self, block, in_ch, out_ch, stride, repeat_time):
+        assert repeat_time > 0 and isinstance(repeat_time, int)
         layers = [block(in_ch, out_ch, stride)]
-        for _ in range(repeat_times - 1):
+        for _ in range(repeat_time - 1):
             layers.append(block(out_ch, out_ch, 1))
         return nn.Sequential(*layers)
