@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from utils import conv3x3, DownBlock, UpBlock, ResidualBlock, DecodeBlock
-from backbone import ResNet34
+from .utils import conv3x3, DownBlock, UpBlock, ResidualBlock, DecodeBlock
+from .backbone import ResNet34
 
 
 class UNet(nn.Module):

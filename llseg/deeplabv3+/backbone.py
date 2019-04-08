@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from utils import XceptionBlock
+from .utils import XceptionBlock
 
 
 class ModifiedAlignedXception(nn.Module):

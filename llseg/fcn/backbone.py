@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from utils import conv3x3, DepthwiseSeparableConv, ResidualBlock
+from .utils import conv3x3, DepthwiseSeparableConv, ResidualBlock
 
 
 class MobileNetV1(nn.Module):

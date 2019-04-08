@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from backbone import ModifiedAlignedXception
-from utils import ASPP
+from .backbone import ModifiedAlignedXception
+from .utils import ASPP
 
 
 class Encoder(nn.Module):
