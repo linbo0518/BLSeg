@@ -31,11 +31,8 @@ class MobileNetV1(nn.Module):
         x = self.stage0(x)
         x = self.stage1(x)
         x = self.stage2(x)
-        print(x.shape)
         x = self.stage3(x)
-        print(x.shape)
         x = self.stage4(x)
-        print(x.shape)
         return x
 
     def _add_stage(self, in_ch, out_ch, repeat_time):
