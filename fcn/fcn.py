@@ -24,9 +24,10 @@ class FCN(nn.Module):
             self.score_pool4_in_ch = 512
             self.score_pool3_in_ch = 256
 
-        self.backbone.stage0[0].padding = (
-            self.backbone.stage0[0].padding[0] + 99,
-            self.backbone.stage0[0].padding[1] + 99)
+        self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
+                                           99,
+                                           self.backbone.stage0[0].padding[1] +
+                                           99)
         self.fc = nn.Sequential(
             nn.Conv2d(self.fc_in_ch, 4096, 7, bias=False),
             nn.ReLU(inplace=True),
@@ -37,22 +38,36 @@ class FCN(nn.Module):
         )
 
         self.score_fc = nn.Conv2d(4096, num_classes, 1, bias=False)
-        self.score_pool4 = nn.Conv2d(
-            self.score_pool4_in_ch, num_classes, 1, bias=False)
-        self.score_pool3 = nn.Conv2d(
-            self.score_pool3_in_ch, num_classes, 1, bias=False)
+        self.score_pool4 = nn.Conv2d(self.score_pool4_in_ch,
+                                     num_classes,
+                                     1,
+                                     bias=False)
+        self.score_pool3 = nn.Conv2d(self.score_pool3_in_ch,
+                                     num_classes,
+                                     1,
+                                     bias=False)
 
-        self.score2 = nn.ConvTranspose2d(
-            num_classes, num_classes, 4, stride=2, bias=False)
-        self.score4 = nn.ConvTranspose2d(
-            num_classes, num_classes, 4, stride=2, bias=False)
-        self.score8 = nn.ConvTranspose2d(
-            num_classes, num_classes, 16, stride=8, bias=False)
+        self.score2 = nn.ConvTranspose2d(num_classes,
+                                         num_classes,
+                                         4,
+                                         stride=2,
+                                         bias=False)
+        self.score4 = nn.ConvTranspose2d(num_classes,
+                                         num_classes,
+                                         4,
+                                         stride=2,
+                                         bias=False)
+        self.score8 = nn.ConvTranspose2d(num_classes,
+                                         num_classes,
+                                         16,
+                                         stride=8,
+                                         bias=False)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)

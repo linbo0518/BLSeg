@@ -14,51 +14,46 @@ class ModifiedAlignedXception(nn.Module):
             nn.Conv2d(32, 64, 3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            XceptionBlock(
-                64, [128, 128, 128],
-                stride=2,
-                residual_type='conv',
-                first_relu=False),
+            XceptionBlock(64, [128, 128, 128],
+                          stride=2,
+                          residual_type='conv',
+                          first_relu=False),
         )
         self.entry_flow2 = nn.Sequential(
-            XceptionBlock(
-                128, [256, 256, 256],
-                stride=2,
-                residual_type='conv',
-                first_relu=True),
-            XceptionBlock(
-                256, [728, 728, 728],
-                stride=2,
-                residual_type='conv',
-                first_relu=True),
+            XceptionBlock(128, [256, 256, 256],
+                          stride=2,
+                          residual_type='conv',
+                          first_relu=True),
+            XceptionBlock(256, [728, 728, 728],
+                          stride=2,
+                          residual_type='conv',
+                          first_relu=True),
         )
         middle_flow = []
         for _ in range(16):
             middle_flow.append(
-                XceptionBlock(
-                    728, [728, 728, 728],
-                    stride=1,
-                    residual_type='sum',
-                    first_relu=True))
+                XceptionBlock(728, [728, 728, 728],
+                              stride=1,
+                              residual_type='sum',
+                              first_relu=True))
         self.middle_flow = nn.Sequential(*middle_flow,)
         self.exit_flow = nn.Sequential(
-            XceptionBlock(
-                728, [728, 1024, 1024],
-                stride=1,
-                residual_type='conv',
-                first_relu=True),
-            XceptionBlock(
-                1024, [1536, 1536, 2048],
-                stride=1,
-                residual_type='none',
-                first_relu=False,
-                dilation=2),
+            XceptionBlock(728, [728, 1024, 1024],
+                          stride=1,
+                          residual_type='conv',
+                          first_relu=True),
+            XceptionBlock(1024, [1536, 1536, 2048],
+                          stride=1,
+                          residual_type='none',
+                          first_relu=False,
+                          dilation=2),
         )
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)

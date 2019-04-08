@@ -27,8 +27,9 @@ class UNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
 
     def forward(self, x):
         e1 = self.inputs(x)
@@ -57,8 +58,9 @@ class ResUNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
@@ -74,6 +76,8 @@ class ResUNet(nn.Module):
         d3 = self.decoder3(e3, d4)
         d2 = self.decoder2(e2, d3)
         d1 = self.decoder1(e1, d2)
-        d1 = F.interpolate(
-            d1, scale_factor=2, mode='bilinear', align_corners=False)
+        d1 = F.interpolate(d1,
+                           scale_factor=2,
+                           mode='bilinear',
+                           align_corners=False)
         return self.outputs(d1)

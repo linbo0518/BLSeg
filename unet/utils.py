@@ -31,11 +31,10 @@ class UpConv(nn.Module):
         self.conv = conv3x3(in_ch, out_ch)
 
     def forward(self, x):
-        x = F.interpolate(
-            x,
-            scale_factor=self.scale_factor,
-            mode='bilinear',
-            align_corners=False)
+        x = F.interpolate(x,
+                          scale_factor=self.scale_factor,
+                          mode='bilinear',
+                          align_corners=False)
         return self.conv(x)
 
 

@@ -8,15 +8,14 @@ class DepthwiseSeparableConv(nn.Module):
     def __init__(self, in_ch, out_ch, stride, dilation=1):
         super(DepthwiseSeparableConv, self).__init__()
         self.depthwise_separable_conv2d = nn.Sequential(
-            nn.Conv2d(
-                in_ch,
-                in_ch,
-                3,
-                stride=stride,
-                padding=dilation,
-                dilation=dilation,
-                groups=in_ch,
-                bias=False),
+            nn.Conv2d(in_ch,
+                      in_ch,
+                      3,
+                      stride=stride,
+                      padding=dilation,
+                      dilation=dilation,
+                      groups=in_ch,
+                      bias=False),
             nn.BatchNorm2d(in_ch),
             nn.ReLU(inplace=True),
             nn.Conv2d(in_ch, out_ch, 1, stride=1, bias=False),
@@ -48,8 +47,10 @@ class XceptionBlock(nn.Module):
             nn.ReLU(inplace=True),
             DepthwiseSeparableConv(out_chs[0], out_chs[1], stride=1),
             nn.ReLU(inplace=True),
-            DepthwiseSeparableConv(
-                out_chs[1], out_chs[2], stride=stride, dilation=dilation)
+            DepthwiseSeparableConv(out_chs[1],
+                                   out_chs[2],
+                                   stride=stride,
+                                   dilation=dilation)
         ])
         if residual_type == 'none':
             xception_block.append(nn.ReLU(inplace=True))
@@ -112,12 +113,15 @@ class ASPP(nn.Module):
         )
 
     def forward(self, x):
+        size = (x.size(2), x.size(3))
         aspp1 = self.aspp1(x)
         aspp2 = self.aspp2(x)
         aspp3 = self.aspp3(x)
         aspp4 = self.aspp4(x)
         aspp5 = self.aspp5(x)
-        aspp5 = F.interpolate(
-            aspp5, size=(16, 16), mode='bilinear', align_corners=False)
+        aspp5 = F.interpolate(aspp5,
+                              size=size,
+                              mode='bilinear',
+                              align_corners=False)
         all_aspp = torch.cat((aspp1, aspp2, aspp3, aspp4, aspp5), dim=1)
         return self.aspp_out(all_aspp)

@@ -39,12 +39,16 @@ class Decoder(nn.Module):
 
     def forward(self, low_level_features, aspp_out):
         low_level_features = self.low_level_conv(low_level_features)
-        aspp_out = F.interpolate(
-            aspp_out, scale_factor=4, mode='bilinear', align_corners=False)
+        aspp_out = F.interpolate(aspp_out,
+                                 scale_factor=4,
+                                 mode='bilinear',
+                                 align_corners=False)
         out = torch.cat((aspp_out, low_level_features), dim=1)
         out = self.concat_conv(out)
-        out = F.interpolate(
-            out, scale_factor=4, mode='bilinear', align_corners=False)
+        out = F.interpolate(out,
+                            scale_factor=4,
+                            mode='bilinear',
+                            align_corners=False)
         return self.outputs(out)
 
 
@@ -57,8 +61,9 @@ class DeepLabV3Plus(nn.Module):
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)

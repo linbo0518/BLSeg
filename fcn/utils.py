@@ -10,8 +10,13 @@ class DepthwiseSeparableConv(nn.Module):
 
     def __init__(self, in_ch, out_ch, stride=1):
         super(DepthwiseSeparableConv, self).__init__()
-        self.dwconv = nn.Conv2d(
-            in_ch, in_ch, 3, stride=stride, padding=1, groups=in_ch, bias=False)
+        self.dwconv = nn.Conv2d(in_ch,
+                                in_ch,
+                                3,
+                                stride=stride,
+                                padding=1,
+                                groups=in_ch,
+                                bias=False)
         self.bn1 = nn.BatchNorm2d(in_ch)
         self.pwconv = nn.Conv2d(in_ch, out_ch, 1, bias=False)
         self.bn2 = nn.BatchNorm2d(out_ch)
