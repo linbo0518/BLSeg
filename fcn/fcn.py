@@ -49,6 +49,14 @@ class FCN(nn.Module):
         self.score8 = nn.ConvTranspose2d(
             num_classes, num_classes, 16, stride=8, bias=False)
 
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(
+                    m.weight, mode='fan_out', nonlinearity='relu')
+            if isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+
     def forward(self, x):
         out = self.backbone.stage0(x)
         out = self.backbone.stage1(out)
