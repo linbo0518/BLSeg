@@ -1,35 +1,26 @@
 import torch
 from torch import nn
-from .backbone import MobileNetV1, VGG16, ResNet34
+from ..backbone.model import VGG16, MobileNetV1, ResNet50S
 
 
 class FCN(nn.Module):
 
     def __init__(self, backbone='vgg16', num_classes=1):
-        assert backbone == 'vgg16' or backbone == 'resnet34' or backbone == 'mobilenetv1'
+        assert backbone in ['vgg16', 'resnet50', 'mobilenetv1']
         super(FCN, self).__init__()
         if backbone == 'vgg16':
             self.backbone = VGG16()
-            self.fc_in_ch = 512
-            self.score_pool4_in_ch = 512
-            self.score_pool3_in_ch = 256
-        elif backbone == 'resnet34':
-            self.backbone = ResNet34()
-            self.fc_in_ch = 512
-            self.score_pool4_in_ch = 256
-            self.score_pool3_in_ch = 128
+        elif backbone == 'resnet50':
+            self.backbone = ResNet50S()
         elif backbone == 'mobilenetv1':
             self.backbone = MobileNetV1()
-            self.fc_in_ch = 1024
-            self.score_pool4_in_ch = 512
-            self.score_pool3_in_ch = 256
 
         self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
                                            99,
                                            self.backbone.stage0[0].padding[1] +
                                            99)
         self.fc = nn.Sequential(
-            nn.Conv2d(self.fc_in_ch, 4096, 7, bias=False),
+            nn.Conv2d(self.backbone.channels[4], 4096, 7, bias=False),
             nn.ReLU(inplace=True),
             nn.Dropout2d(),
             nn.Conv2d(4096, 4096, 1, bias=False),
@@ -38,11 +29,11 @@ class FCN(nn.Module):
         )
 
         self.score_fc = nn.Conv2d(4096, num_classes, 1, bias=False)
-        self.score_pool4 = nn.Conv2d(self.score_pool4_in_ch,
+        self.score_pool4 = nn.Conv2d(self.backbone.channels[3],
                                      num_classes,
                                      1,
                                      bias=False)
-        self.score_pool3 = nn.Conv2d(self.score_pool3_in_ch,
+        self.score_pool3 = nn.Conv2d(self.backbone.channels[2],
                                      num_classes,
                                      1,
                                      bias=False)
@@ -63,14 +54,7 @@ class FCN(nn.Module):
                                          stride=8,
                                          bias=False)
 
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
+        self._init_params()
 
     def forward(self, x):
         out = self.backbone.stage0(x)
@@ -96,3 +80,13 @@ class FCN(nn.Module):
 
         x = score8[:, :, 31:31 + x.size(2), 31:31 + x.size(3)]
         return x
+
+    def _init_params(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight,
+                                        mode='fan_out',
+                                        nonlinearity='relu')
+            if isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
