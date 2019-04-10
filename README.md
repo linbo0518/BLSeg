@@ -11,7 +11,7 @@ PyTorch implementation of Semantic Segmentation Model
 
 ---
 
-#### Support Model
+#### Supported Model
 
 * [FCN]
 * [U-Net]
@@ -19,7 +19,7 @@ PyTorch implementation of Semantic Segmentation Model
 
 ---
 
-#### Support Backbone
+#### Supported Backbone
 
 * [VGG16]
 * [MobilenNet v1]
