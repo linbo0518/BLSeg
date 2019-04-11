@@ -1,4 +1,4 @@
-## BLSeg (Baseline Segmentation)
+## BLSeg (BaseLine Segmentation)
 
 PyTorch implementation of Semantic Segmentation Model
 
@@ -24,7 +24,7 @@ PyTorch implementation of Semantic Segmentation Model
 * [VGG16]
 * [MobilenNet v1]
 * [ResNet50] (Modified according to [Bag of Tricks])
-* Modified Aligned Xception (from [DeepLab v3+])
+* [Modified Aligned Xception]
 
 ---
 
@@ -40,5 +40,6 @@ PyTorch implementation of Semantic Segmentation Model
 [FCN]:https://arxiv.org/abs/1411.4038
 [U-Net]:https://arxiv.org/abs/1505.04597
 [DeepLab v3+]:https://arxiv.org/abs/1802.02611
+[Modified Aligned Xception]:https://arxiv.org/abs/1802.02611
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187
 [See CHANGELOG]:https://github.com/linbo0518/LLSeg/blob/master/CHANGELOG.md

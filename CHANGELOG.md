@@ -1,3 +1,10 @@
+#### 2019.04.12
+
+* rename package name to blseg(baseline segmentation)
+* xception now is a public backbone
+* make backbone's output stride changeable (16 and 32)
+* add xception to fcn and unet
+
 #### 2019.04.10
 
 * packaging llseg
