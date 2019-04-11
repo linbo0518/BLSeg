@@ -1,12 +1,12 @@
 import torch
 from torch import nn
-from ..backbone import *
+from ...backbone import *
 
 
 class FCN(nn.Module):
 
     def __init__(self, backbone='vgg16', num_classes=1):
-        assert backbone in ['vgg16', 'resnet50', 'mobilenetv1']
+        assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
         super(FCN, self).__init__()
         if backbone == 'vgg16':
             self.backbone = VGG16()
@@ -14,6 +14,8 @@ class FCN(nn.Module):
             self.backbone = ResNet50S()
         elif backbone == 'mobilenetv1':
             self.backbone = MobileNetV1()
+        elif backbone == 'xception':
+            self.backbone = ModifiedAlignedXception()
 
         self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
                                            99,
