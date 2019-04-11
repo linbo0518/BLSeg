@@ -1,12 +1,6 @@
 import torch
 from torch import nn
 from .utils import conv3x3, DepthwiseSeparableConv
-'''
-TODO: keep original
-net.stage4[0].xception_block[5].dwconv.stride = (1, 1)
-net.stage4[1].xception_block[4].dwconv.padding = (2, 2)
-net.stage4[1].xception_block[4].dwconv.dilation = (2, 2)
-'''
 
 
 class XceptionBlock(nn.Module):
@@ -119,7 +113,7 @@ class ModifiedAlignedXception(nn.Module):
                 self.channels[3], self.channels[4] - 1024,
                 self.channels[4] - 1024
             ],
-                          stride=1,
+                          stride=2,
                           residual_type='conv',
                           first_relu=True),
             XceptionBlock(self.channels[4] - 1024, [
@@ -127,8 +121,7 @@ class ModifiedAlignedXception(nn.Module):
             ],
                           stride=1,
                           residual_type='none',
-                          first_relu=False,
-                          dilation=2),
+                          first_relu=False),
         )
 
         self._init_params()
@@ -138,7 +131,7 @@ class ModifiedAlignedXception(nn.Module):
         x = self.stage1(x)  # 128, 1/4
         x = self.stage2(x)  # 256, 1/8
         x = self.stage3(x)  # 728, 1/16
-        x = self.stage4(x)  # 2048, 1/16
+        x = self.stage4(x)  # 2048, 1/32
         return x
 
     def _init_params(self):
@@ -150,3 +143,24 @@ class ModifiedAlignedXception(nn.Module):
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
+
+    def change_output_stride(self, output_stride):
+        assert output_stride in [16, 32]
+        if output_stride == 16:
+            self.stage4[0].xception_block[5].dwconv.stride = (1, 1)
+            self.stage4[0].residual[0].stride = (1, 1)
+            self.stage4[1].xception_block[0].dwconv.padding = (2, 2)
+            self.stage4[1].xception_block[0].dwconv.dilation = (2, 2)
+            self.stage4[1].xception_block[2].dwconv.padding = (2, 2)
+            self.stage4[1].xception_block[2].dwconv.dilation = (2, 2)
+            self.stage4[1].xception_block[4].dwconv.padding = (2, 2)
+            self.stage4[1].xception_block[4].dwconv.dilation = (2, 2)
+        elif output_stride == 32:
+            self.stage4[0].xception_block[5].dwconv.stride = (2, 2)
+            self.stage4[0].residual[0].stride = (2, 2)
+            self.stage4[1].xception_block[0].dwconv.padding = (1, 1)
+            self.stage4[1].xception_block[0].dwconv.dilation = (1, 1)
+            self.stage4[1].xception_block[2].dwconv.padding = (1, 1)
+            self.stage4[1].xception_block[2].dwconv.dilation = (1, 1)
+            self.stage4[1].xception_block[4].dwconv.padding = (1, 1)
+            self.stage4[1].xception_block[4].dwconv.dilation = (1, 1)

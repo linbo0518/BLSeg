@@ -19,9 +19,11 @@ class ResidualBlock(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
         if self.do_downsample:
-            self.avgpool = nn.AvgPool2d(stride, stride, ceil_mode=True)
-            self.conv4 = nn.Conv2d(in_ch, out_ch, 1, bias=False)
-            self.bn4 = nn.BatchNorm2d(out_ch)
+            self.residual = nn.Sequential(
+                nn.AvgPool2d(stride, stride, ceil_mode=True),
+                nn.Conv2d(in_ch, out_ch, 1, bias=False),
+                nn.BatchNorm2d(out_ch),
+            )
 
     def forward(self, x):
         residual = x
@@ -35,9 +37,7 @@ class ResidualBlock(nn.Module):
         x = self.bn3(x)
 
         if self.do_downsample:
-            residual = self.avgpool(residual)
-            residual = self.conv4(residual)
-            residual = self.bn4(residual)
+            residual = self.residual(residual)
         x += residual
         return self.relu(x)
 
@@ -95,3 +95,26 @@ class ResNet50S(nn.Module):
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
+
+    def change_output_stride(self, output_stride):
+        assert output_stride in [16, 32]
+        if output_stride == 16:
+            self.stage4[0].conv2.stride = (1, 1)
+            self.stage4[0].residual[0].kernel_size = 1
+            self.stage4[0].residual[0].stride = 1
+            self.stage4[0].conv2.padding = (2, 2)
+            self.stage4[0].conv2.dilation = (2, 2)
+            self.stage4[1].conv2.padding = (2, 2)
+            self.stage4[1].conv2.dilation = (2, 2)
+            self.stage4[2].conv2.padding = (2, 2)
+            self.stage4[2].conv2.dilation = (2, 2)
+        elif output_stride == 32:
+            self.stage4[0].conv2.stride = (2, 2)
+            self.stage4[0].residual[0].kernel_size = 2
+            self.stage4[0].residual[0].stride = 2
+            self.stage4[0].conv2.padding = (1, 1)
+            self.stage4[0].conv2.dilation = (1, 1)
+            self.stage4[1].conv2.padding = (1, 1)
+            self.stage4[1].conv2.dilation = (1, 1)
+            self.stage4[2].conv2.padding = (1, 1)
+            self.stage4[2].conv2.dilation = (1, 1)

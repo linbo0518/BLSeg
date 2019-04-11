@@ -46,3 +46,18 @@ class MobileNetV1(nn.Module):
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
+
+    def change_output_stride(self, output_stride):
+        assert output_stride in [16, 32]
+        if output_stride == 16:
+            self.stage4[0].dwconv.stride = (1, 1)
+            self.stage4[0].dwconv.padding = (2, 2)
+            self.stage4[0].dwconv.dilation = (2, 2)
+            self.stage4[1].dwconv.padding = (2, 2)
+            self.stage4[1].dwconv.dilation = (2, 2)
+        elif output_stride == 32:
+            self.stage4[0].dwconv.stride = (2, 2)
+            self.stage4[0].dwconv.padding = (1, 1)
+            self.stage4[0].dwconv.dilation = (1, 1)
+            self.stage4[1].dwconv.padding = (1, 1)
+            self.stage4[1].dwconv.dilation = (1, 1)

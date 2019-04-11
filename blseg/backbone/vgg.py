@@ -44,3 +44,24 @@ class VGG16(nn.Module):
                 nn.init.kaiming_normal_(m.weight,
                                         mode='fan_out',
                                         nonlinearity='relu')
+
+    def change_output_stride(self, output_stride):
+        assert output_stride in [16, 32]
+        if output_stride == 16:
+            self.stage4[6].kernel_size = 1
+            self.stage4[6].stride = 1
+            self.stage4[0].padding = (2, 2)
+            self.stage4[0].dilation = (2, 2)
+            self.stage4[2].padding = (2, 2)
+            self.stage4[2].dilation = (2, 2)
+            self.stage4[4].padding = (2, 2)
+            self.stage4[4].dilation = (2, 2)
+        elif output_stride == 32:
+            self.stage4[6].kernel_size = 2
+            self.stage4[6].stride = 2
+            self.stage4[0].padding = (1, 1)
+            self.stage4[0].dilation = (1, 1)
+            self.stage4[2].padding = (1, 1)
+            self.stage4[2].dilation = (1, 1)
+            self.stage4[4].padding = (1, 1)
+            self.stage4[4].dilation = (1, 1)
