@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from ..backbone.model import VGG16, MobileNetV1, ResNet50S
+from ..backbone import *
 
 
 class FCN(nn.Module):

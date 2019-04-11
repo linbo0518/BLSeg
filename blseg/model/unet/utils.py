@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
-from ..backbone.utils import conv3x3, ResidualBlock
+from ..backbone.utils import conv3x3
 
 
 class DownBlock(nn.Module):

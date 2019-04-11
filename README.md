@@ -1,4 +1,4 @@
-## LLSeg 
+## BLSeg (Baseline Segmentation)
 
 PyTorch implementation of Semantic Segmentation Model
 
@@ -24,7 +24,7 @@ PyTorch implementation of Semantic Segmentation Model
 * [VGG16]
 * [MobilenNet v1]
 * [ResNet50] (Modified according to [Bag of Tricks])
-* Modified Aligned Xception for [DeepLab v3+]
+* Modified Aligned Xception (from [DeepLab v3+])
 
 ---
 

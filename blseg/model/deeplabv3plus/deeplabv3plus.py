@@ -1,10 +1,11 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from .backbone import ModifiedAlignedXception
-from .utils import ASPP
+from ..backbone import *
+from .aspp import ASPP
 
 
+# TODO: support more backbone
 class Encoder(nn.Module):
 
     def __init__(self):
@@ -35,7 +36,6 @@ class Decoder(nn.Module):
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
         )
-        self.outputs = nn.Conv2d(256, num_classes, 1, bias=False)
 
     def forward(self, low_level_features, aspp_out):
         low_level_features = self.low_level_conv(low_level_features)
@@ -49,7 +49,7 @@ class Decoder(nn.Module):
                             scale_factor=4,
                             mode='bilinear',
                             align_corners=False)
-        return self.outputs(out)
+        return out
 
 
 class DeepLabV3Plus(nn.Module):

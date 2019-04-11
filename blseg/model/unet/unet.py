@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from ..backbone import VGG16, MobileNetV1, ResNet50S
+from ..backbone import *
 from ..backbone.utils import conv3x3
 from .utils import DownBlock, UpBlock, UpConv
 
