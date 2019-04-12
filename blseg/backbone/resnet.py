@@ -108,6 +108,7 @@ class ResNet50S(nn.Module):
             self.stage4[1].conv2.dilation = (2, 2)
             self.stage4[2].conv2.padding = (2, 2)
             self.stage4[2].conv2.dilation = (2, 2)
+            self.strides[4] = 16
         elif output_stride == 32:
             self.stage4[0].conv2.stride = (2, 2)
             self.stage4[0].residual[0].kernel_size = 2
@@ -118,3 +119,4 @@ class ResNet50S(nn.Module):
             self.stage4[1].conv2.dilation = (1, 1)
             self.stage4[2].conv2.padding = (1, 1)
             self.stage4[2].conv2.dilation = (1, 1)
+            self.strides[4] = 32

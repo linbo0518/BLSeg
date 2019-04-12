@@ -55,9 +55,11 @@ class MobileNetV1(nn.Module):
             self.stage4[0].dwconv.dilation = (2, 2)
             self.stage4[1].dwconv.padding = (2, 2)
             self.stage4[1].dwconv.dilation = (2, 2)
+            self.strides[4] = 16
         elif output_stride == 32:
             self.stage4[0].dwconv.stride = (2, 2)
             self.stage4[0].dwconv.padding = (1, 1)
             self.stage4[0].dwconv.dilation = (1, 1)
             self.stage4[1].dwconv.padding = (1, 1)
             self.stage4[1].dwconv.dilation = (1, 1)
+            self.strides[4] = 32

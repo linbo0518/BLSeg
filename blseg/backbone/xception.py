@@ -69,7 +69,7 @@ class ModifiedAlignedXception(nn.Module):
     def __init__(self):
         super(ModifiedAlignedXception, self).__init__()
         self.channels = [64, 128, 256, 728, 2048]
-        self.strides = [2, 4, 8, 16, 16]
+        self.strides = [2, 4, 8, 16, 32]
         self.stage0 = nn.Sequential(
             conv3x3(3, 32, stride=2),
             nn.BatchNorm2d(32),
@@ -155,6 +155,7 @@ class ModifiedAlignedXception(nn.Module):
             self.stage4[1].xception_block[2].dwconv.dilation = (2, 2)
             self.stage4[1].xception_block[4].dwconv.padding = (2, 2)
             self.stage4[1].xception_block[4].dwconv.dilation = (2, 2)
+            self.strides[4] = 16
         elif output_stride == 32:
             self.stage4[0].xception_block[5].dwconv.stride = (2, 2)
             self.stage4[0].residual[0].stride = (2, 2)
@@ -164,3 +165,4 @@ class ModifiedAlignedXception(nn.Module):
             self.stage4[1].xception_block[2].dwconv.dilation = (1, 1)
             self.stage4[1].xception_block[4].dwconv.padding = (1, 1)
             self.stage4[1].xception_block[4].dwconv.dilation = (1, 1)
+            self.strides[4] = 32

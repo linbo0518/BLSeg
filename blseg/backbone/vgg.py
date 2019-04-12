@@ -56,6 +56,7 @@ class VGG16(nn.Module):
             self.stage4[2].dilation = (2, 2)
             self.stage4[4].padding = (2, 2)
             self.stage4[4].dilation = (2, 2)
+            self.strides[4] = 16
         elif output_stride == 32:
             self.stage4[6].kernel_size = 2
             self.stage4[6].stride = 2
@@ -65,3 +66,4 @@ class VGG16(nn.Module):
             self.stage4[2].dilation = (1, 1)
             self.stage4[4].padding = (1, 1)
             self.stage4[4].dilation = (1, 1)
+            self.strides[4] = 32
