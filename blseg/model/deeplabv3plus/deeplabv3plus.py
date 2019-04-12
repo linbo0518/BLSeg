@@ -1,30 +1,20 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from ..backbone import *
+from ..utils import _get_backbone
 from .aspp import ASPP
 
 
-# TODO: support more backbone
-class Encoder(nn.Module):
+class DeepLabV3Plus(nn.Module):
 
-    def __init__(self):
-        super(Encoder, self).__init__()
-        self.backbone = ModifiedAlignedXception()
-        self.aspp = ASPP(2048)
-
-    def forward(self, x):
-        x, low_level_features = self.backbone(x)
-        aspp_out = self.aspp(x)
-        return low_level_features, aspp_out
-
-
-class Decoder(nn.Module):
-
-    def __init__(self, num_classes=1):
-        super(Decoder, self).__init__()
+    def __init__(self, backbone='xception', num_classes=1):
+        assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
+        super(DeepLabV3Plus, self).__init__()
+        self.backbone = _get_backbone(backbone)
+        self.backbone.change_output_stride(16)
+        self.aspp = ASPP(self.backbone.channels[4])
         self.low_level_conv = nn.Sequential(
-            nn.Conv2d(128, 48, 1, bias=False),
+            nn.Conv2d(self.backbone.channels[1], 48, 1, bias=False),
             nn.BatchNorm2d(48),
             nn.ReLU(inplace=True),
         )
@@ -37,7 +27,15 @@ class Decoder(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-    def forward(self, low_level_features, aspp_out):
+        self._init_params()
+
+    def forward(self, x):
+        x = self.backbone.stage0(x)
+        low_level_features = self.backbone.stage1(x)
+        x = self.backbone.stage2(low_level_features)
+        x = self.backbone.stage3(x)
+        x = self.backbone.stage4(x)
+        aspp_out = self.aspp(x)
         low_level_features = self.low_level_conv(low_level_features)
         aspp_out = F.interpolate(aspp_out,
                                  scale_factor=4,
@@ -51,14 +49,7 @@ class Decoder(nn.Module):
                             align_corners=False)
         return out
 
-
-class DeepLabV3Plus(nn.Module):
-
-    def __init__(self, num_classes=1):
-        super(DeepLabV3Plus, self).__init__()
-        self.encoder = Encoder()
-        self.decoder = Decoder(num_classes)
-
+    def _init_params(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight,
@@ -67,7 +58,3 @@ class DeepLabV3Plus(nn.Module):
             if isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
-
-    def forward(self, x):
-        low_level_features, aspp_out = self.encoder(x)
-        return self.decoder(low_level_features, aspp_out)
