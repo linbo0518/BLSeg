@@ -1,7 +1,7 @@
 import torch
 from torch import nn
-from ...backbone import *
 from ...backbone.utils import conv3x3
+from ..utils import _get_backbone
 from .utils import DownBlock, UpBlock, UpConv
 
 
@@ -52,14 +52,7 @@ class ModernUNet(nn.Module):
     def __init__(self, backbone='resnet50', num_classes=1):
         assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
         super(ModernUNet, self).__init__()
-        if backbone == 'vgg16':
-            self.backbone = VGG16()
-        elif backbone == 'resnet50':
-            self.backbone = ResNet50S()
-        elif backbone == 'mobilenetv1':
-            self.backbone = MobileNetV1()
-        elif backbone == 'xception':
-            self.backbone = ModifiedAlignedXception()
+        self.backbone = _get_backbone(backbone)
 
         self.up_block4 = UpBlock(self.backbone.channels[4],
                                  self.backbone.channels[3])
