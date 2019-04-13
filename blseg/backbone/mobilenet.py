@@ -1,9 +1,10 @@
 import torch
 from torch import nn
 from .utils import conv3x3, DepthwiseSeparableConv
+from .base import BackboneBaseModule
 
 
-class MobileNetV1(nn.Module):
+class MobileNetV1(BackboneBaseModule):
 
     def __init__(self):
         super(MobileNetV1, self).__init__()
@@ -37,29 +38,6 @@ class MobileNetV1(nn.Module):
             layers.append(DepthwiseSeparableConv(out_ch, out_ch))
         return nn.Sequential(*layers)
 
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
-
-    def change_output_stride(self, output_stride):
-        assert output_stride in [16, 32]
-        if output_stride == 16:
-            self.stage4[0].dwconv.stride = (1, 1)
-            self.stage4[0].dwconv.padding = (2, 2)
-            self.stage4[0].dwconv.dilation = (2, 2)
-            self.stage4[1].dwconv.padding = (2, 2)
-            self.stage4[1].dwconv.dilation = (2, 2)
-            self.strides[4] = 16
-        elif output_stride == 32:
-            self.stage4[0].dwconv.stride = (2, 2)
-            self.stage4[0].dwconv.padding = (1, 1)
-            self.stage4[0].dwconv.dilation = (1, 1)
-            self.stage4[1].dwconv.padding = (1, 1)
-            self.stage4[1].dwconv.dilation = (1, 1)
-            self.strides[4] = 32
+    def _change_downsample(self, params):
+        self.stage3[0].dwconv.stride = (params[0], params[0])
+        self.stage4[0].dwconv.stride = (params[1], params[1])

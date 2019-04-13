@@ -1,9 +1,10 @@
 import torch
 from torch import nn
 from .utils import conv3x3
+from .base import BackboneBaseModule
 
 
-class VGG16(nn.Module):
+class VGG16(BackboneBaseModule):
 
     def __init__(self):
         super(VGG16, self).__init__()
@@ -14,6 +15,7 @@ class VGG16(nn.Module):
         self.stage2 = self._add_stage(self.channels[1], self.channels[2], 3)
         self.stage3 = self._add_stage(self.channels[2], self.channels[3], 3)
         self.stage4 = self._add_stage(self.channels[3], self.channels[4], 3)
+
         self._init_params()
 
     def forward(self, x):
@@ -38,32 +40,8 @@ class VGG16(nn.Module):
         layers.append(nn.MaxPool2d(2, 2, ceil_mode=True))
         return nn.Sequential(*layers)
 
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-
-    def change_output_stride(self, output_stride):
-        assert output_stride in [16, 32]
-        if output_stride == 16:
-            self.stage4[6].kernel_size = 1
-            self.stage4[6].stride = 1
-            self.stage4[0].padding = (2, 2)
-            self.stage4[0].dilation = (2, 2)
-            self.stage4[2].padding = (2, 2)
-            self.stage4[2].dilation = (2, 2)
-            self.stage4[4].padding = (2, 2)
-            self.stage4[4].dilation = (2, 2)
-            self.strides[4] = 16
-        elif output_stride == 32:
-            self.stage4[6].kernel_size = 2
-            self.stage4[6].stride = 2
-            self.stage4[0].padding = (1, 1)
-            self.stage4[0].dilation = (1, 1)
-            self.stage4[2].padding = (1, 1)
-            self.stage4[2].dilation = (1, 1)
-            self.stage4[4].padding = (1, 1)
-            self.stage4[4].dilation = (1, 1)
-            self.strides[4] = 32
+    def _change_downsample(self, params):
+        self.stage3[6].kernel_size = params[0]
+        self.stage3[6].stride = params[0]
+        self.stage4[6].kernel_size = params[1]
+        self.stage4[6].stride = params[1]

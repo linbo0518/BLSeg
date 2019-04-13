@@ -12,6 +12,7 @@ class DeepLabV3Plus(nn.Module):
         super(DeepLabV3Plus, self).__init__()
         self.backbone = _get_backbone(backbone)
         self.backbone.change_output_stride(16)
+        self.backbone.change_dilation([1, 1, 1, 1, 2])
         self.aspp = ASPP(self.backbone.channels[4])
         self.low_level_conv = nn.Sequential(
             nn.Conv2d(self.backbone.channels[1], 48, 1, bias=False),
@@ -22,9 +23,7 @@ class DeepLabV3Plus(nn.Module):
             nn.Conv2d(304, 256, 3, padding=1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, 3, padding=1, bias=False),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(256, num_classes, 3, padding=1, bias=False),
         )
 
         self._init_params()
