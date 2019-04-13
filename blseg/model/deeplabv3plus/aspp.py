@@ -30,6 +30,7 @@ class ASPP(nn.Module):
         self.aspp5 = nn.Sequential(
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Conv2d(in_ch, 256, 1, bias=False),
+            nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
         )
         self.aspp_out = nn.Sequential(
@@ -44,8 +45,7 @@ class ASPP(nn.Module):
         aspp2 = self.aspp2(x)
         aspp3 = self.aspp3(x)
         aspp4 = self.aspp4(x)
-        aspp5 = self.aspp5(x)
-        aspp5 = F.interpolate(aspp5,
+        aspp5 = F.interpolate(self.aspp5(x),
                               size=size,
                               mode='bilinear',
                               align_corners=False)
