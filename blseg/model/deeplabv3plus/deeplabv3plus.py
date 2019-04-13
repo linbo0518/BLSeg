@@ -1,16 +1,16 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from ..utils import _get_backbone
+from ..base import SegBaseModule
 from .aspp import ASPP
 
 
-class DeepLabV3Plus(nn.Module):
+class DeepLabV3Plus(SegBaseModule):
 
     def __init__(self, backbone='xception', num_classes=1):
         assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
         super(DeepLabV3Plus, self).__init__()
-        self.backbone = _get_backbone(backbone)
+        self.backbone = self._get_backbone(backbone)
         self.backbone.change_output_stride(16)
         self.backbone.change_dilation([1, 1, 1, 1, 2])
         self.aspp = ASPP(self.backbone.channels[4])
@@ -47,13 +47,3 @@ class DeepLabV3Plus(nn.Module):
                             mode='bilinear',
                             align_corners=False)
         return out
-
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)

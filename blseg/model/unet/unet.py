@@ -1,11 +1,11 @@
 import torch
 from torch import nn
 from ...backbone.utils import conv3x3
-from ..utils import _get_backbone
+from ..base import SegBaseModule
 from .utils import DownBlock, UpBlock, UpConv
 
 
-class UNet(nn.Module):
+class UNet(SegBaseModule):
 
     def __init__(self, num_classes=1):
         super(UNet, self).__init__()
@@ -47,12 +47,12 @@ class UNet(nn.Module):
                                         nonlinearity='relu')
 
 
-class ModernUNet(nn.Module):
+class ModernUNet(SegBaseModule):
 
     def __init__(self, backbone='resnet50', num_classes=1):
         assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
         super(ModernUNet, self).__init__()
-        self.backbone = _get_backbone(backbone)
+        self.backbone = self._get_backbone(backbone)
 
         self.up_block4 = UpBlock(self.backbone.channels[4],
                                  self.backbone.channels[3])
@@ -80,13 +80,3 @@ class ModernUNet(nn.Module):
         d2 = self.up_block2(e2, d3)
         d1 = self.up_block1(e1, d2)
         return self.outputs(d1)
-
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)

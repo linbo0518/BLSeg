@@ -1,14 +1,14 @@
 import torch
 from torch import nn
-from ..utils import _get_backbone
+from ..base import SegBaseModule
 
 
-class FCN(nn.Module):
+class FCN(SegBaseModule):
 
     def __init__(self, backbone='vgg16', num_classes=1):
         assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
         super(FCN, self).__init__()
-        self.backbone = _get_backbone(backbone)
+        self.backbone = self._get_backbone(backbone)
 
         self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
                                            99,
@@ -75,13 +75,3 @@ class FCN(nn.Module):
 
         x = score8[:, :, 31:31 + x.size(2), 31:31 + x.size(3)]
         return x
-
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
