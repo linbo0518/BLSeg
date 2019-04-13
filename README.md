@@ -1,6 +1,6 @@
 ## BLSeg (BaseLine Segmentation)
 
-PyTorch implementation of Semantic Segmentation Model
+PyTorch's Semantic Segmentation Toolbox
 
 ---
 
@@ -15,6 +15,7 @@ PyTorch implementation of Semantic Segmentation Model
 
 * [FCN]
 * [U-Net]
+* [PSPNet]
 * [DeepLab v3+]
 
 ---
@@ -39,6 +40,7 @@ PyTorch implementation of Semantic Segmentation Model
 [ResNet50]:https://arxiv.org/abs/1512.03385
 [FCN]:https://arxiv.org/abs/1411.4038
 [U-Net]:https://arxiv.org/abs/1505.04597
+[PSPNet]:https://arxiv.org/abs/1612.01105
 [DeepLab v3+]:https://arxiv.org/abs/1802.02611
 [Modified Aligned Xception]:https://arxiv.org/abs/1802.02611
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187

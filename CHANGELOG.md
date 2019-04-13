@@ -1,9 +1,20 @@
+#### 2019.04.13
+
+* all backbone now based on BackboneBaseModule
+* all model now based on SegBaseModule
+* add PSPNet
+
+---
+ 
 #### 2019.04.12
 
 * rename package name to blseg(baseline segmentation)
 * xception now is a public backbone
 * make backbone's output stride changeable (16 and 32)
 * add xception to fcn and unet
+* make deeplab v3 plus more flex
+
+---
 
 #### 2019.04.10
 
