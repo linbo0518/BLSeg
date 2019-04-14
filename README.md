@@ -24,11 +24,11 @@ PyTorch's Semantic Segmentation Toolbox
 
 Each model can choose any backbone
 
-|       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** |
-| :---------------------------: | :-----: | :-------: | :--------: | :-------------: |
-|           **VGG16**           | &radic; |  &radic;  |  &radic;   |     &radic;     |
-|       **MobileNet v1**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
-|         **ResNet50**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
+| Backbone \ Model              | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** |
+| ----------------------------- | :-----: | :-------: | :--------: | :-------------: |
+| **VGG16**                     | &radic; |  &radic;  |  &radic;   |     &radic;     |
+| **MobileNet v1**              | &radic; |  &radic;  |  &radic;   |     &radic;     |
+| **ResNet50**                  | &radic; |  &radic;  |  &radic;   |     &radic;     |
 | **Modified Aligned Xception** | &radic; |  &radic;  |  &radic;   |     &radic;     |
 
 ---
