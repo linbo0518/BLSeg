@@ -24,20 +24,20 @@ PyTorch's Semantic Segmentation Toolbox
 
 Each model can choose any backbone
 
-| Backbone \ Model              | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** |
-| ----------------------------- | :-----: | :-------: | :--------: | :-------------: |
-| **VGG16**                     | &radic; |  &radic;  |  &radic;   |     &radic;     |
-| **MobileNet v1**              | &radic; |  &radic;  |  &radic;   |     &radic;     |
-| **ResNet50**                  | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** |
+| :---------------------------: | :-----: | :-------: | :--------: | :-------------: |
+|           **VGG16**           | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|       **MobileNet v1**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|         **ResNet50**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
 | **Modified Aligned Xception** | &radic; |  &radic;  |  &radic;   |     &radic;     |
 
 ---
 
 ### TODO
 
-- [ ] add mobilenetv2 backbone
-- [ ] add loss package (dice loss)
-- [ ] add large kernel net (global conv net)
+- [ ] add MobileNet v2 Backbone
+- [ ] add DICE Loss to loss subpackage
+- [ ] add Large Kernel Matters (Global Convultional Net)
 - [ ] add more model
 
 ---
