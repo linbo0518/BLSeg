@@ -13,7 +13,8 @@ PyTorch's Semantic Segmentation Toolbox
 
 * Backbone
   * [VGG16]
-  * [MobilenNet v1]
+  * [MobileNet v1]
+  * [MobileNet v2]
   * [ResNet50] (Modified according to [Bag of Tricks])
   * [Modified Aligned Xception]
 * Model
@@ -28,6 +29,7 @@ Each model can choose any backbone without any modification
 | :---------------------------: | :-----: | :-------: | :--------: | :-------------: |
 |           **VGG16**           | &radic; |  &radic;  |  &radic;   |     &radic;     |
 |       **MobileNet v1**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|       **MobileNet v2**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
 |         **ResNet50**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
 | **Modified Aligned Xception** | &radic; |  &radic;  |  &radic;   |     &radic;     |
 
@@ -35,7 +37,6 @@ Each model can choose any backbone without any modification
 
 ### TODO
 
-- [ ] add MobileNet v2 Backbone
 - [ ] add DICE Loss to loss subpackage
 - [ ] add Large Kernel Matters (Global Convultional Net)
 - [ ] add pretrained model
@@ -50,7 +51,8 @@ See [CHANGELOG]
 ---
 
 [VGG16]:https://arxiv.org/abs/1409.1556
-[MobilenNet v1]:https://arxiv.org/abs/1704.04861
+[MobileNet v1]:https://arxiv.org/abs/1704.04861
+[MobileNet v2]:https://arxiv.org/abs/1801.04381
 [ResNet50]:https://arxiv.org/abs/1512.03385
 [FCN]:https://arxiv.org/abs/1411.4038
 [U-Net]:https://arxiv.org/abs/1505.04597

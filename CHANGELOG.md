@@ -1,3 +1,11 @@
+#### 2019.04.20
+
+* add MobileNet v2 backbone
+* update init_params
+* fix minor bugs
+
+---
+
 #### 2019.04.13
 
 * all backbone now based on BackboneBaseModule
