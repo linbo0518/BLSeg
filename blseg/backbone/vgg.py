@@ -33,7 +33,7 @@ class VGG16(BackboneBaseModule):
         ]
         for _ in range(repeat_time - 1):
             layers.extend([
-                nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1),
+                nn.Conv2d(out_ch, out_ch, 3, stride=1, padding=1),
                 nn.ReLU(inplace=True),
             ])
         layers.append(nn.MaxPool2d(2, 2, ceil_mode=True))
