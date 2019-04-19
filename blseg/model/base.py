@@ -15,6 +15,8 @@ class SegBaseModule(nn.Module):
             return MobileNetV1()
         elif backbone_name == 'resnet50':
             return ResNet50S()
+        elif backbone_name == 'mobilenetv2':
+            return MobileNetV2()
         elif backbone_name == 'xception':
             return ModifiedAlignedXception()
         else:

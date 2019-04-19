@@ -6,7 +6,9 @@ from ..base import SegBaseModule
 class FCN(SegBaseModule):
 
     def __init__(self, backbone='vgg16', num_classes=1):
-        assert backbone in ['vgg16', 'resnet50', 'mobilenetv1', 'xception']
+        assert backbone in [
+            'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
+        ]
         super(FCN, self).__init__()
         self.backbone = self._get_backbone(backbone)
 
