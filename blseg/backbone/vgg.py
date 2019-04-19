@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from .utils import conv3x3
 from .base import BackboneBaseModule
 
 
@@ -29,12 +28,12 @@ class VGG16(BackboneBaseModule):
     def _add_stage(self, in_ch, out_ch, repeat_time):
         assert repeat_time > 0 and isinstance(repeat_time, int)
         layers = [
-            conv3x3(in_ch, out_ch),
+            nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1),
             nn.ReLU(inplace=True),
         ]
         for _ in range(repeat_time - 1):
             layers.extend([
-                conv3x3(out_ch, out_ch),
+                nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1),
                 nn.ReLU(inplace=True),
             ])
         layers.append(nn.MaxPool2d(2, 2, ceil_mode=True))
