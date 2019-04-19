@@ -22,7 +22,7 @@ PyTorch's Semantic Segmentation Toolbox
   * [PSPNet]
   * [DeepLab v3+]
 
-Each model can choose any backbone
+Each model can choose any backbone without any modification
 
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** |
 | :---------------------------: | :-----: | :-------: | :--------: | :-------------: |
@@ -38,6 +38,7 @@ Each model can choose any backbone
 - [ ] add MobileNet v2 Backbone
 - [ ] add DICE Loss to loss subpackage
 - [ ] add Large Kernel Matters (Global Convultional Net)
+- [ ] add pretrained model
 - [ ] add more model
 
 ---
