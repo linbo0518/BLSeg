@@ -8,7 +8,7 @@ from .utils import DownBlock, UpBlock, UpConv
 class UNet(SegBaseModule):
 
     def __init__(self, num_classes=1):
-        super(UNet, self).__init__()
+        super(UNet, self).__init__(num_classes)
         self.inputs = nn.Sequential(
             conv3x3(3, 64),
             nn.ReLU(inplace=True),
@@ -53,7 +53,7 @@ class ModernUNet(SegBaseModule):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
-        super(ModernUNet, self).__init__()
+        super(ModernUNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
 
         self.up_block4 = UpBlock(self.backbone.channels[4],

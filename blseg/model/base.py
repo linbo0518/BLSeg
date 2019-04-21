@@ -5,8 +5,9 @@ from ..backbone import *
 
 class SegBaseModule(nn.Module):
 
-    def __init__(self):
+    def __init__(self, num_classes=1):
         super(SegBaseModule, self).__init__()
+        self.num_classes = num_classes
 
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':

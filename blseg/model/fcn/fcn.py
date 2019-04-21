@@ -9,7 +9,7 @@ class FCN(SegBaseModule):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
-        super(FCN, self).__init__()
+        super(FCN, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
 
         self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
