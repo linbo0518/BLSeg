@@ -9,7 +9,7 @@ PyTorch's Semantic Segmentation Toolbox
 
 ---
 
-### Supported Model
+### Supported Module
 
 * Backbone
   * [VGG16]
@@ -22,6 +22,11 @@ PyTorch's Semantic Segmentation Toolbox
   * [U-Net]
   * [PSPNet]
   * [DeepLab v3+]
+* Loss
+  * Coming soon...
+* Metric
+  * PixelAccuracy
+  * MeanIoU
 
 Each model can choose any backbone without any modification
 
@@ -37,9 +42,10 @@ Each model can choose any backbone without any modification
 
 ### TODO
 
-- [ ] add DICE Loss to loss subpackage
-- [ ] add Large Kernel Matters (Global Convultional Net)
-- [ ] add pretrained model
+- [ ] add dice loss with ohem feature
+- [ ] add ohem to crossentropyloss
+- [ ] add pre-trained params
+- [ ] add large kernel matters (global convultional net)
 - [ ] add more model
 
 ---
