@@ -17,23 +17,17 @@ class FCN(SegBaseModule):
                                            self.backbone.stage0[0].padding[1] +
                                            99)
         self.fc = nn.Sequential(
-            nn.Conv2d(self.backbone.channels[4], 4096, 7, bias=False),
+            nn.Conv2d(self.backbone.channels[4], 4096, 7),
             nn.ReLU(inplace=True),
             nn.Dropout2d(),
-            nn.Conv2d(4096, 4096, 1, bias=False),
+            nn.Conv2d(4096, 4096, 1),
             nn.ReLU(inplace=True),
             nn.Dropout2d(),
         )
 
-        self.score_fc = nn.Conv2d(4096, num_classes, 1, bias=False)
-        self.score_pool4 = nn.Conv2d(self.backbone.channels[3],
-                                     num_classes,
-                                     1,
-                                     bias=False)
-        self.score_pool3 = nn.Conv2d(self.backbone.channels[2],
-                                     num_classes,
-                                     1,
-                                     bias=False)
+        self.score_fc = nn.Conv2d(4096, num_classes, 1)
+        self.score_pool4 = nn.Conv2d(self.backbone.channels[3], num_classes, 1)
+        self.score_pool3 = nn.Conv2d(self.backbone.channels[2], num_classes, 1)
 
         self.score2 = nn.ConvTranspose2d(num_classes,
                                          num_classes,
@@ -66,14 +60,12 @@ class FCN(SegBaseModule):
         score_pool4 = self.score_pool4(pool4_out)
         score_pool4 = score_pool4[:, :, 5:5 + score2.size(2), 5:5 +
                                   score2.size(3)]
-        fuse1 = score2 + score_pool4
-        score4 = self.score4(fuse1)
+        score4 = self.score4(score2 + score_pool4)
 
         score_pool3 = self.score_pool3(pool3_out)
         score_pool3 = score_pool3[:, :, 9:9 + score4.size(2), 9:9 +
                                   score4.size(3)]
-        fuse2 = score4 + score_pool3
-        score8 = self.score8(fuse2)
+        score8 = self.score8(score4 + score_pool3)
 
         x = score8[:, :, 31:31 + x.size(2), 31:31 + x.size(3)]
         return x
