@@ -9,18 +9,16 @@ class SegBaseModule(nn.Module):
         super(SegBaseModule, self).__init__()
         self.num_classes = num_classes
 
-    def freeze_backbone(self):
+    def train_backbone(self, train=True):
         for param in self.backbone.parameters():
-            param.requires_grad = False
+            param.requires_grad = train
 
-    def train_backbone(self):
-        for param in self.backbone.parameters():
-            param.requires_grad = True
-
-    def freeze_BN(self):
+    def freeze_BN(self, train=True):
         for m in self.modules():
             if isinstance(m, nn.BatchNorm2d):
                 m.eval()
+                for param in m.parameters():
+                    param.requires_grad = train
 
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':
