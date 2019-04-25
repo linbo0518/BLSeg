@@ -25,8 +25,8 @@ PyTorch's Semantic Segmentation Toolbox
 * Loss
   * Coming soon...
 * Metric
-  * PixelAccuracy
-  * MeanIoU
+  * Pixel Accuracy
+  * Mean IoU
 
 Each model can choose any backbone without any modification
 
@@ -42,9 +42,9 @@ Each model can choose any backbone without any modification
 
 ### TODO
 
-- [ ] add dice loss with ohem feature
-- [ ] add ohem to crossentropyloss
 - [ ] add pre-trained params
+- [ ] add dice loss 
+- [ ] add ohem feature to loss
 - [ ] add large kernel matters (global convultional net)
 - [ ] add more model
 

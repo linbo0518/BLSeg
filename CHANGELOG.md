@@ -1,3 +1,15 @@
+#### 2019.04.25
+
+* seg model now has num_classes member
+* add Metric subpackage 
+  * add Pixel Accuracy metric
+  * add Mean IoU metric
+* add freeze_backbone and train_backbone func to seg model
+* add load_parameters to backbone model
+* add load_parameters and load_backbone_parameters to seg model
+
+---
+
 #### 2019.04.20
 
 * add MobileNet v2 backbone
