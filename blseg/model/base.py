@@ -9,9 +9,13 @@ class SegBaseModule(nn.Module):
         super(SegBaseModule, self).__init__()
         self.num_classes = num_classes
 
-    def train_backbone(self, train=True):
+    def train_backbone(self):
         for param in self.backbone.parameters():
-            param.requires_grad = train
+            param.requires_grad = True
+
+    def freeze_backbone(self):
+        for param in self.backbone.parameters():
+            param.requires_grad = False
 
     def freeze_BN(self, train=True):
         for m in self.modules():
