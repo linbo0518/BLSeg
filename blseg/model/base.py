@@ -24,6 +24,14 @@ class SegBaseModule(nn.Module):
                 for param in m.parameters():
                     param.requires_grad = train
 
+    def load_parameters(self, filename, map_location=None, strict=True):
+        self.load_state_dict(torch.load(filename, map_location=map_location),
+                             strict=strict)
+
+    def load_backbone_parameters(self, filename, map_location=None,
+                                 strict=True):
+        self.backbone.load_parameters(filename, map_location, strict)
+
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':
             return VGG16()
