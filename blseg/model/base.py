@@ -25,13 +25,11 @@ class SegBaseModule(nn.Module):
                     param.requires_grad = train
 
     def load_parameters(self, filename, map_location=None, strict=True):
-        # TODO: waiting for test
         self.load_state_dict(torch.load(filename, map_location=map_location),
                              strict=strict)
 
     def load_backbone_parameters(self, filename, map_location=None,
                                  strict=True):
-        # TODO: waiting for test
         self.backbone.load_parameters(filename, map_location, strict)
 
     def _get_backbone(self, backbone_name):

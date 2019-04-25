@@ -9,7 +9,6 @@ class BackboneBaseModule(nn.Module):
         self.strides = [2, 4, 8, 16, 32]
 
     def load_parameters(self, filename, map_location=None, strict=True):
-        # TODO: waiting for test
         self.load_state_dict(torch.load(filename, map_location=map_location),
                              strict=strict)
 
