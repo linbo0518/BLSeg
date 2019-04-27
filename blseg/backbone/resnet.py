@@ -59,10 +59,11 @@ class ResNet50S(BackboneBaseModule):
             conv3x3(32, self.channels[0]),
             nn.BatchNorm2d(self.channels[0]),
             nn.ReLU(inplace=True),
-            # nn.MaxPool2d(3, stride=2, padding=1),
         )
-        self.stage1 = self._add_stage(ResidualBlock, self.channels[0],
-                                      self.channels[1], 2, 3)
+        self.stage1 = nn.Sequential(nn.MaxPool2d(3, stride=2, padding=1))
+        for layer in self._add_stage(ResidualBlock, self.channels[0],
+                                     self.channels[1], 1, 3):
+            self.stage1.add_module(str(len(self.stage1)), layer)
         self.stage2 = self._add_stage(ResidualBlock, self.channels[1],
                                       self.channels[2], 2, 4)
         self.stage3 = self._add_stage(ResidualBlock, self.channels[2],
