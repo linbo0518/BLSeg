@@ -38,8 +38,8 @@ class MobileNetV1(BackboneBaseModule):
         self.stage0 = nn.Sequential(
             conv3x3(3, 32, 2),
             nn.BatchNorm2d(32),
-            nn.ReLU6(inplace=True),
-            DepthwiseSeparableConv(32, self.channels[0], 1),
+            nn.ReLU(inplace=True),
+            DepthwiseSeparableConv(32, self.channels[0], 1, relu6=False),
         )
         self.stage1 = self._add_stage(self.channels[0], self.channels[1], 2)
         self.stage2 = self._add_stage(self.channels[1], self.channels[2], 2)
@@ -58,9 +58,9 @@ class MobileNetV1(BackboneBaseModule):
 
     def _add_stage(self, in_ch, out_ch, repeat_time):
         assert repeat_time > 0 and isinstance(repeat_time, int)
-        layers = [DepthwiseSeparableConv(in_ch, out_ch, 2)]
+        layers = [DepthwiseSeparableConv(in_ch, out_ch, 2, relu6=False)]
         for _ in range(repeat_time - 1):
-            layers.append(DepthwiseSeparableConv(out_ch, out_ch))
+            layers.append(DepthwiseSeparableConv(out_ch, out_ch, relu6=False))
         return nn.Sequential(*layers)
 
     def _change_downsample(self, params):
