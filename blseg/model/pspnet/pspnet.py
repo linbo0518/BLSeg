@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
+from ...backbone.utils import conv3x3
 from ..base import SegBaseModule
 from .ppm import PPM
 
@@ -16,10 +17,13 @@ class PSPNet(SegBaseModule):
         self.backbone.change_output_stride(8)
         self.backbone.change_dilation([1, 1, 1, 2, 4])
         self.ppm = PPM(self.backbone.channels[4])
-        self.final_conv = nn.Conv2d(int(self.backbone.channels[4] / 4),
-                                    num_classes,
-                                    1,
-                                    bias=False)
+        self.ppm_conv = nn.Sequential(
+            conv3x3(int(self.backbone.channels[4] / 4), 512),
+            nn.BatchNorm2d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(p=0.1),
+        )
+        self.out_conv = nn.Conv2d(512, num_classes, 1, bias=False)
 
         self._init_params()
 
@@ -30,7 +34,8 @@ class PSPNet(SegBaseModule):
         x = self.backbone.stage3(x)
         x = self.backbone.stage4(x)
         x = self.ppm(x)
-        x = self.final_conv(x)
+        x = self.ppm_conv(x)
+        x = self.out_conv(x)
         out = F.interpolate(x,
                             scale_factor=8,
                             mode='bilinear',
