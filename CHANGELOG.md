@@ -1,3 +1,11 @@
+#### 2019.04.30
+
+* [MobileNetV1] change relu6 to relu
+* [FCN] change fcn8s to fcn16s
+* [PSPNet] modified by caffe's implementation
+
+---
+
 #### 2019.04.25
 
 * seg model now has num_classes member

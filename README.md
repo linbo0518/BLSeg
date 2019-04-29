@@ -40,16 +40,6 @@ Each model can choose any backbone without any modification
 
 ---
 
-### TODO
-
-- [ ] add pre-trained params
-- [ ] add dice loss
-- [ ] add ohem feature to loss
-- [ ] add large kernel matters (global convultional net)
-- [ ] add more model
-
----
-
 ### Changelog
 
 See [CHANGELOG]
