@@ -27,31 +27,25 @@ class FCN(SegBaseModule):
 
         self.score_fc = nn.Conv2d(4096, num_classes, 1)
         self.score_pool4 = nn.Conv2d(self.backbone.channels[3], num_classes, 1)
-        self.score_pool3 = nn.Conv2d(self.backbone.channels[2], num_classes, 1)
 
         self.score2 = nn.ConvTranspose2d(num_classes,
                                          num_classes,
                                          4,
                                          stride=2,
                                          bias=False)
-        self.score4 = nn.ConvTranspose2d(num_classes,
-                                         num_classes,
-                                         4,
-                                         stride=2,
-                                         bias=False)
-        self.score8 = nn.ConvTranspose2d(num_classes,
-                                         num_classes,
-                                         16,
-                                         stride=8,
-                                         bias=False)
+        self.score16 = nn.ConvTranspose2d(num_classes,
+                                          num_classes,
+                                          32,
+                                          stride=16,
+                                          bias=False)
 
         self._init_params()
 
     def forward(self, x):
         out = self.backbone.stage0(x)
         out = self.backbone.stage1(out)
-        pool3_out = self.backbone.stage2(out)
-        pool4_out = self.backbone.stage3(pool3_out)
+        out = self.backbone.stage2(out)
+        pool4_out = self.backbone.stage3(out)
         out = self.backbone.stage4(pool4_out)
         out = self.fc(out)
         out = self.score_fc(out)
@@ -60,12 +54,7 @@ class FCN(SegBaseModule):
         score_pool4 = self.score_pool4(pool4_out)
         score_pool4 = score_pool4[:, :, 5:5 + score2.size(2), 5:5 +
                                   score2.size(3)]
-        score4 = self.score4(score2 + score_pool4)
 
-        score_pool3 = self.score_pool3(pool3_out)
-        score_pool3 = score_pool3[:, :, 9:9 + score4.size(2), 9:9 +
-                                  score4.size(3)]
-        score8 = self.score8(score4 + score_pool3)
-
-        x = score8[:, :, 31:31 + x.size(2), 31:31 + x.size(3)]
+        score16 = self.score16(score2 + score_pool4)
+        x = score16[:, :, 27:27 + x.size(2), 27:27 + x.size(3)]
         return x
