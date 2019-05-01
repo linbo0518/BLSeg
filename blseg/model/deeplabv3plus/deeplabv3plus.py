@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
+from ...backbone.utils import conv3x3
 from ..base import SegBaseModule
 from .aspp import ASPP
 
@@ -22,10 +23,13 @@ class DeepLabV3Plus(SegBaseModule):
             nn.ReLU(inplace=True),
         )
         self.concat_conv = nn.Sequential(
-            nn.Conv2d(304, 256, 3, padding=1, bias=False),
+            conv3x3(304, 256),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
-            nn.Conv2d(256, num_classes, 3, padding=1, bias=False),
+            conv3x3(256, 256),
+            nn.BatchNorm2d(256),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, num_classes, 1, bias=False),
         )
 
         self._init_params()
