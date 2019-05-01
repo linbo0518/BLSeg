@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from ...backbone.utils import conv3x3
+from ...backbone.resnet import ResidualBlock
 
 
 class DownBlock(nn.Module):
@@ -25,7 +26,10 @@ class UpConv(nn.Module):
     def __init__(self, in_ch, out_ch, scale_factor=2):
         super(UpConv, self).__init__()
         self.scale_factor = scale_factor
-        self.conv = nn.Conv2d(in_ch, out_ch, 2, bias=False)
+        self.interpolate_conv = nn.Sequential(
+            nn.Conv2d(in_ch, out_ch, 2, bias=False),
+            nn.ReLU(inplace=True),
+        )
 
     def forward(self, x):
         x = F.interpolate(x,
@@ -33,7 +37,7 @@ class UpConv(nn.Module):
                           mode='bilinear',
                           align_corners=False)
         x = F.pad(x, (0, 1, 0, 1))
-        return self.conv(x)
+        return self.interpolate_conv(x)
 
 
 class UpBlock(nn.Module):
@@ -47,6 +51,38 @@ class UpBlock(nn.Module):
             conv3x3(out_ch, out_ch),
             nn.ReLU(inplace=True),
         )
+
+    def forward(self, encoded, x):
+        x = self.up_conv(x)
+        x = torch.cat((encoded, x), dim=1)
+        return self.up_block(x)
+
+
+class ModernUpConv(nn.Module):
+
+    def __init__(self, in_ch, out_ch, scale_factor=2):
+        super(ModernUpConv, self).__init__()
+        self.scale_factor = scale_factor
+        self.interpolate_conv = nn.Sequential(
+            conv3x3(in_ch, out_ch),
+            nn.BatchNorm2d(out_ch),
+            nn.ReLU(inplace=True),
+        )
+
+    def forward(self, x):
+        x = F.interpolate(x,
+                          scale_factor=self.scale_factor,
+                          mode='bilinear',
+                          align_corners=False)
+        return self.interpolate_conv(x)
+
+
+class ModernUpBlock(nn.Module):
+
+    def __init__(self, in_ch, out_ch):
+        super(ModernUpBlock, self).__init__()
+        self.up_conv = ModernUpConv(in_ch, out_ch)
+        self.up_block = ResidualBlock(out_ch * 2, out_ch, 1)
 
     def forward(self, encoded, x):
         x = self.up_conv(x)

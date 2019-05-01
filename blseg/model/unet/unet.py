@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from ...backbone.utils import conv3x3
 from ..base import SegBaseModule
-from .utils import DownBlock, UpBlock, UpConv
+from .utils import DownBlock, UpBlock, UpConv, ModernUpBlock, ModernUpConv
 
 
 class UNet(SegBaseModule):
@@ -39,13 +39,6 @@ class UNet(SegBaseModule):
         d1 = self.up_block1(e1, d2)
         return self.outputs(d1)
 
-    def _init_params(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
-
 
 class ModernUNet(SegBaseModule):
 
@@ -56,16 +49,16 @@ class ModernUNet(SegBaseModule):
         super(ModernUNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
 
-        self.up_block4 = UpBlock(self.backbone.channels[4],
-                                 self.backbone.channels[3])
-        self.up_block3 = UpBlock(self.backbone.channels[3],
-                                 self.backbone.channels[2])
-        self.up_block2 = UpBlock(self.backbone.channels[2],
-                                 self.backbone.channels[1])
-        self.up_block1 = UpBlock(self.backbone.channels[1],
-                                 self.backbone.channels[0])
+        self.up_block4 = ModernUpBlock(self.backbone.channels[4],
+                                       self.backbone.channels[3])
+        self.up_block3 = ModernUpBlock(self.backbone.channels[3],
+                                       self.backbone.channels[2])
+        self.up_block2 = ModernUpBlock(self.backbone.channels[2],
+                                       self.backbone.channels[1])
+        self.up_block1 = ModernUpBlock(self.backbone.channels[1],
+                                       self.backbone.channels[0])
         self.outputs = nn.Sequential(
-            UpConv(self.backbone.channels[0], self.backbone.channels[0]),
+            ModernUpConv(self.backbone.channels[0], self.backbone.channels[0]),
             nn.Conv2d(self.backbone.channels[0], num_classes, 1, bias=False),
         )
 
