@@ -17,12 +17,10 @@ class SegBaseModule(nn.Module):
         for param in self.backbone.parameters():
             param.requires_grad = False
 
-    def freeze_BN(self, train=True):
+    def freeze_BN(self):
         for m in self.modules():
             if isinstance(m, nn.BatchNorm2d):
                 m.eval()
-                for param in m.parameters():
-                    param.requires_grad = train
 
     def load_parameters(self, filename, map_location=None, strict=True):
         self.load_state_dict(torch.load(filename, map_location=map_location),
