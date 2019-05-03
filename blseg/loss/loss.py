@@ -13,60 +13,55 @@ def _ohem_mask(loss, ohem_ratio):
 
 class BCEWithLogitsLossWithOHEM(nn.Module):
 
-    def __init__(self, ohem_ratio=1.0, pos_weight=None):
+    def __init__(self, ohem_ratio=1.0, pos_weight=None, eps=1e-7):
         super(BCEWithLogitsLossWithOHEM, self).__init__()
         self.criterion = nn.BCEWithLogitsLoss(reduction='none',
                                               pos_weight=pos_weight)
         self.ohem_ratio = ohem_ratio
+        self.eps = 1e-7
 
     def forward(self, pred, target):
         loss = self.criterion(pred, target)
-        if self.ohem_ratio < 1.0:
-            mask = _ohem_mask(loss, self.ohem_ratio)
-            loss = loss * mask
-        return loss.mean()
+        mask = _ohem_mask(loss, self.ohem_ratio)
+        loss = loss * mask
+        return loss.sum() / (mask.sum() + self.eps)
 
 
 class CrossEntropyLossWithOHEM(nn.Module):
 
-    def __init__(self, ohem_ratio=1.0, ignore_index=-100):
+    def __init__(self, ohem_ratio=1.0, ignore_index=-100, eps=1e-7):
         super(CrossEntropyLossWithOHEM, self).__init__()
         self.criterion = nn.CrossEntropyLoss(ignore_index=ignore_index,
                                              reduction='none')
         self.ohem_ratio = ohem_ratio
+        self.eps = 1e-7
 
     def forward(self, pred, target):
         loss = self.criterion(pred, target)
-        if self.ohem_ratio < 1.0:
-            mask = _ohem_mask(loss, self.ohem_ratio)
-            loss = loss * mask
-        return loss.mean()
+        mask = _ohem_mask(loss, self.ohem_ratio)
+        loss = loss * mask
+        return loss.sum() / (mask.sum() + self.eps)
 
 
-class BinaryDiceLossWithOHEM(nn.Module):
-    # TODO: waiting for test
-    def __init__(self, ohem_ratio=1.0):
-        super(BinaryDiceLossWithOHEM, self).__init__()
-        self.ohem_ratio = ohem_ratio
+class BinaryDiceLoss(nn.Module):
+
+    def __init__(self, eps=1e-7):
+        super(BinaryDiceLoss, self).__init__()
+        self.eps = eps
 
     def forward(self, pred, target):
-        pass
-
-    def _dice_loss(self, pred, label):
-        eps = 1e-12
         pred = torch.sigmoid(pred)
-        intersection = (pred * label).sum((1, 2, 3))
-        dice_coef = 1 - (2. * intersection) / (pred.sum((1, 2, 3)) + label.sum(
-            (1, 2, 3)) + eps)
-        return dice_coef
+        intersection = (pred * target).sum()
+        loss = 1 - (2. * intersection) / (pred.sum() + target.sum() + self.eps)
+        return loss
 
 
-class MultiClassDiceLossWithOHEM(nn.Module):
+class MultiClassDiceLoss(nn.Module):
     # TODO: waiting for test
-    def __init__(self, ohem_ratio=1.0, ignore_index=-100):
-        super(MultiClassDiceLossWithOHEM, self).__init__()
-        self.ohem_ratio = ohem_ratio
+    def __init__(self, ignore_index=-100, eps=1e-7):
+        super(MultiClassDiceLoss, self).__init__()
         self.ignore_index = ignore_index
+        self.eps = 1e-7
 
     def forward(self, pred, target):
         pass
