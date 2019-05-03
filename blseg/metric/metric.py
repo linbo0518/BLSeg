@@ -4,7 +4,7 @@ import numpy as np
 
 class PixelAccuracy(object):
 
-    def __init__(self, ignore_index=-1, eps=1e-12):
+    def __init__(self, ignore_index=-1, eps=1e-7):
         self.num_correct = 0
         self.num_instance = 0
         self.ignore_index = ignore_index
@@ -26,7 +26,7 @@ class PixelAccuracy(object):
 
 class MeanIoU(object):
 
-    def __init__(self, num_classes, ignore_background=False, eps=1e-12):
+    def __init__(self, num_classes, ignore_background=False, eps=1e-7):
         self.num_classes = num_classes
         self.num_intersection = np.zeros(self.num_classes)
         self.num_union = np.zeros(self.num_classes)
