@@ -12,8 +12,13 @@ class PixelAccuracy(object):
 
     def update(self, pred, target):
         valid_mask = target != self.ignore_index
-        pred = torch.argmax(pred, dim=1)
-        self.num_correct += ((pred == target) * valid_mask).sum().item()
+        if pred.size(1) == 1:
+            pred = torch.sigmoid(pred)
+            pred = pred > 0.5
+        else:
+            pred = torch.argmax(pred, dim=1)
+        self.num_correct += ((pred.long() == target.long()) *
+                             valid_mask).sum().item()
         self.num_instance += valid_mask.sum().item()
 
     def get(self):
