@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-import torch.nn.functional as F
+from ..utils import one_hot
 
 
 def _ohem_mask(loss, ohem_ratio):
@@ -43,25 +43,17 @@ class CrossEntropyLossWithOHEM(nn.Module):
         return loss.sum() / (mask.sum() + self.eps)
 
 
-class BinaryDiceLoss(nn.Module):
+class DiceLoss(nn.Module):
 
     def __init__(self, eps=1e-7):
-        super(BinaryDiceLoss, self).__init__()
+        super(DiceLoss, self).__init__()
         self.eps = eps
 
     def forward(self, pred, target):
         pred = torch.sigmoid(pred)
-        intersection = (pred * target).sum()
-        loss = 1 - (2. * intersection) / (pred.sum() + target.sum() + self.eps)
+        pred = torch.cat((1 - pred, pred), dim=1)
+        target = one_hot(target, num_classes=2)
+        intersection = (pred * target).sum((0, 2, 3))
+        loss = 1 - ((2. * intersection) / (pred.sum((0, 2, 3)) + target.sum(
+            (0, 2, 3)) + self.eps)).mean()
         return loss
-
-
-class MultiClassDiceLoss(nn.Module):
-    # TODO: waiting for test
-    def __init__(self, ignore_index=-100, eps=1e-7):
-        super(MultiClassDiceLoss, self).__init__()
-        self.ignore_index = ignore_index
-        self.eps = eps
-
-    def forward(self, pred, target):
-        pass
