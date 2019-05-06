@@ -42,7 +42,7 @@ class SegBaseModule(nn.Module):
         elif backbone_name == 'xception':
             return ModifiedAlignedXception()
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
     def _init_params(self):
         for m in self.modules():
