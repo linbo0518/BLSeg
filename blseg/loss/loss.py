@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from ..utils import one_hot
 
 
 def _ohem_mask(loss, ohem_ratio):
@@ -51,9 +50,6 @@ class DiceLoss(nn.Module):
 
     def forward(self, pred, target):
         pred = torch.sigmoid(pred)
-        pred = torch.cat((1 - pred, pred), dim=1)
-        target = one_hot(target, num_classes=2)
-        intersection = (pred * target).sum((0, 2, 3))
-        loss = 1 - ((2. * intersection) / (pred.sum((0, 2, 3)) + target.sum(
-            (0, 2, 3)) + self.eps)).mean()
+        intersection = (pred * target).sum()
+        loss = 1 - (2. * intersection) / (pred.sum() + target.sum() + self.eps)
         return loss
