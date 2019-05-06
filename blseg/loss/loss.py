@@ -18,7 +18,7 @@ class BCEWithLogitsLossWithOHEM(nn.Module):
         self.criterion = nn.BCEWithLogitsLoss(reduction='none',
                                               pos_weight=pos_weight)
         self.ohem_ratio = ohem_ratio
-        self.eps = 1e-7
+        self.eps = eps
 
     def forward(self, pred, target):
         loss = self.criterion(pred, target)
@@ -34,7 +34,7 @@ class CrossEntropyLossWithOHEM(nn.Module):
         self.criterion = nn.CrossEntropyLoss(ignore_index=ignore_index,
                                              reduction='none')
         self.ohem_ratio = ohem_ratio
-        self.eps = 1e-7
+        self.eps = eps
 
     def forward(self, pred, target):
         loss = self.criterion(pred, target)
@@ -61,7 +61,7 @@ class MultiClassDiceLoss(nn.Module):
     def __init__(self, ignore_index=-100, eps=1e-7):
         super(MultiClassDiceLoss, self).__init__()
         self.ignore_index = ignore_index
-        self.eps = 1e-7
+        self.eps = eps
 
     def forward(self, pred, target):
         pass
