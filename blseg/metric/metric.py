@@ -4,22 +4,22 @@ import numpy as np
 
 class PixelAccuracy(object):
 
-    def __init__(self, ignore_index=-1, eps=1e-7):
+    def __init__(self, ignore_index=-100, eps=1e-7):
         self.num_correct = 0
         self.num_instance = 0
         self.ignore_index = ignore_index
         self.eps = eps
 
     def update(self, pred, target):
-        valid_mask = target != self.ignore_index
+        ignore_mask = target != self.ignore_index
         if pred.size(1) == 1:
             pred = torch.sigmoid(pred)
             pred = pred > 0.5
         else:
             pred = torch.argmax(pred, dim=1)
         self.num_correct += ((pred.long() == target.long()) *
-                             valid_mask).sum().item()
-        self.num_instance += valid_mask.sum().item()
+                             ignore_mask).sum().item()
+        self.num_instance += ignore_mask.sum().item()
 
     def get(self):
         return self.num_correct / (self.num_instance + self.eps)
