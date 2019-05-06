@@ -1,3 +1,12 @@
+#### 2019.05.06
+
+* minor bug fix
+* add BCEWithLogitsLossWithOHEM and CrossEntropyLossWithOHEM
+* add DiceLoss
+* metric now can work in both binary classification and multi-class classification
+
+---
+
 #### 2019.04.30
 
 * [MobileNetV1] change relu6 to relu

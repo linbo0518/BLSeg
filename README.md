@@ -23,7 +23,9 @@ PyTorch's Semantic Segmentation Toolbox
   * [PSPNet]
   * [DeepLab v3+]
 * Loss
-  * Coming soon...
+  * BCEWithLogitsLossWithOHEM
+  * CrossEntropyLossWithOHEM
+  * DiceLoss (only for binary classification)
 * Metric
   * Pixel Accuracy
   * Mean IoU
