@@ -13,28 +13,23 @@ class PPM(nn.Module):
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Conv2d(in_ch, out_ch, 1, bias=False),
             nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=False),
+            nn.ReLU(inplace=True),
         )
         self.ppm2 = nn.Sequential(
             nn.AdaptiveAvgPool2d((2, 2)),
             nn.Conv2d(in_ch, out_ch, 1, bias=False),
             nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=False),
+            nn.ReLU(inplace=True),
         )
         self.ppm3 = nn.Sequential(
             nn.AdaptiveAvgPool2d((3, 3)),
             nn.Conv2d(in_ch, out_ch, 1, bias=False),
             nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=False),
+            nn.ReLU(inplace=True),
         )
         self.ppm4 = nn.Sequential(
             nn.AdaptiveAvgPool2d((6, 6)),
             nn.Conv2d(in_ch, out_ch, 1, bias=False),
-            nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=False),
-        )
-        self.ppm_out = nn.Sequential(
-            conv3x3(in_ch + 4 * out_ch, out_ch),
             nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
         )
@@ -57,5 +52,5 @@ class PPM(nn.Module):
                              size=size,
                              mode='bilinear',
                              align_corners=False)
-        all_ppm = torch.cat([x, ppm1, ppm2, ppm3, ppm4], dim=1)
-        return self.ppm_out(all_ppm)
+        ppm = torch.cat([x, ppm1, ppm2, ppm3, ppm4], dim=1)
+        return ppm

@@ -18,7 +18,7 @@ class PSPNet(SegBaseModule):
         self.backbone.change_dilation([1, 1, 1, 2, 4])
         self.ppm = PPM(self.backbone.channels[4])
         self.ppm_conv = nn.Sequential(
-            conv3x3(int(self.backbone.channels[4] / 4), 512),
+            conv3x3(self.backbone.channels[4] * 2, 512),
             nn.BatchNorm2d(512),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.1),
