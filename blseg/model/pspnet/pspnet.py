@@ -39,5 +39,5 @@ class PSPNet(SegBaseModule):
         out = F.interpolate(x,
                             scale_factor=8,
                             mode='bilinear',
-                            align_corners=False)
+                            align_corners=True)
         return out

@@ -35,7 +35,7 @@ class UpConv(nn.Module):
         x = F.interpolate(x,
                           scale_factor=self.scale_factor,
                           mode='bilinear',
-                          align_corners=False)
+                          align_corners=True)
         x = F.pad(x, (0, 1, 0, 1))
         return self.interpolate_conv(x)
 
@@ -73,7 +73,7 @@ class ModernUpConv(nn.Module):
         x = F.interpolate(x,
                           scale_factor=self.scale_factor,
                           mode='bilinear',
-                          align_corners=False)
+                          align_corners=True)
         return self.interpolate_conv(x)
 
 

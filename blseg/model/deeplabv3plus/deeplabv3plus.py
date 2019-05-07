@@ -45,11 +45,11 @@ class DeepLabV3Plus(SegBaseModule):
         aspp_out = F.interpolate(aspp_out,
                                  scale_factor=4,
                                  mode='bilinear',
-                                 align_corners=False)
+                                 align_corners=True)
         out = torch.cat((aspp_out, low_level_features), dim=1)
         out = self.concat_conv(out)
         out = F.interpolate(out,
                             scale_factor=4,
                             mode='bilinear',
-                            align_corners=False)
+                            align_corners=True)
         return out

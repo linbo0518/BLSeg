@@ -48,6 +48,6 @@ class ASPP(nn.Module):
         aspp5 = F.interpolate(self.aspp5(x),
                               size=size,
                               mode='bilinear',
-                              align_corners=False)
+                              align_corners=True)
         all_aspp = torch.cat((aspp1, aspp2, aspp3, aspp4, aspp5), dim=1)
         return self.aspp_out(all_aspp)

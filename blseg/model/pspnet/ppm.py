@@ -39,18 +39,18 @@ class PPM(nn.Module):
         ppm1 = F.interpolate(self.ppm1(x),
                              size=size,
                              mode='bilinear',
-                             align_corners=False)
+                             align_corners=True)
         ppm2 = F.interpolate(self.ppm2(x),
                              size=size,
                              mode='bilinear',
-                             align_corners=False)
+                             align_corners=True)
         ppm3 = F.interpolate(self.ppm3(x),
                              size=size,
                              mode='bilinear',
-                             align_corners=False)
+                             align_corners=True)
         ppm4 = F.interpolate(self.ppm4(x),
                              size=size,
                              mode='bilinear',
-                             align_corners=False)
+                             align_corners=True)
         ppm = torch.cat([x, ppm1, ppm2, ppm3, ppm4], dim=1)
         return ppm
