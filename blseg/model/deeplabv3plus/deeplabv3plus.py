@@ -41,11 +41,11 @@ class DeepLabV3Plus(SegBaseModule):
         x = self.backbone.stage3(x)
         x = self.backbone.stage4(x)
         aspp_out = self.aspp(x)
-        low_level_features = self.low_level_conv(low_level_features)
         aspp_out = F.interpolate(aspp_out,
                                  scale_factor=4,
                                  mode='bilinear',
                                  align_corners=True)
+        low_level_features = self.low_level_conv(low_level_features)
         out = torch.cat((aspp_out, low_level_features), dim=1)
         out = self.concat_conv(out)
         out = F.interpolate(out,
