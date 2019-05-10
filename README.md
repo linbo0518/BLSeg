@@ -42,6 +42,38 @@ Each model can choose any backbone without any modification
 
 ---
 
+### Usage
+
+import blseg package
+```python
+from blseg import model, loss, metric
+```
+
+create model
+```python
+num_classes = 21
+
+net = model.FCN('vgg16', num_classes)
+net = model.ModernUNet('mobilenetv1', num_classes)
+net = model.PSPNet('resnet50', num_classes)
+net = model.DeepLabV3Plus('xception', num_classes)
+```
+
+create loss
+```python
+criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio=0.7)
+criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio=0.7)
+criterion = DiceLoss()
+```
+
+create metric
+
+```python
+pixacc = metric.PixelAccuracy()
+miou = metric.MeanIoU(num_classes)
+```
+---
+
 ### Changelog
 
 See [CHANGELOG]
