@@ -87,14 +87,19 @@ Model API
 ```python
 # train backbone (default is train the entire net)
 net.train_backbone()
+
 # freeze backbone, only train the segmentation head
 net.freeze_backbone()
+
 # freeze BatchNorm layers for fine-tuning
 net.freeze_BN()
+
 # load pre-trained parameters
 net.load_parameters(filename, map_location=None, strict=True)
+
 # load pre-trained backbone parameters
 net.load_backbone_parameters(filename, map_location=None, strict=True)
+
 # reset segmentation classes
 net.reset_classes(num_classes)
 ```
@@ -104,8 +109,10 @@ Metric API
 ```python
 # update metric
 metric.update(pred, target)
+
 # get current metric
 metric.get()
+
 # reset metric
 metric.reset()
 ```
