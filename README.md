@@ -40,6 +40,10 @@ Each model can choose any backbone without any modification
 |         **ResNet50**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
 | **Modified Aligned Xception** | &radic; |  &radic;  |  &radic;   |     &radic;     |
 
+Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for training and 1449 images for validation.
+
+You can download pre-trained parameters at [Google Drive]
+
 ---
 
 ### Usage
@@ -105,3 +109,4 @@ See [CHANGELOG]
 [Modified Aligned Xception]:https://arxiv.org/abs/1802.02611
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187
 [CHANGELOG]:https://github.com/linbo0518/LLSeg/blob/master/CHANGELOG.md
+[Google Drive]:https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing
