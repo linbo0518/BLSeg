@@ -1,3 +1,13 @@
+#### 2019.05.12
+
+* add pre-trained parameters
+* add reset_classes function to SegBaseModule
+* add usage
+* add model and metric API docs
+* minor bug fix
+
+---
+
 #### 2019.05.06
 
 * minor bug fix
