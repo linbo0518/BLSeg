@@ -58,3 +58,19 @@ class FCN(SegBaseModule):
         score16 = self.score16(score2 + score_pool4)
         x = score16[:, :, 27:27 + x.size(2), 27:27 + x.size(3)]
         return x
+
+    def reset_classes(self, num_classes):
+        self.num_classes = num_classes
+        self.score_fc = nn.Conv2d(4096, num_classes, 1)
+        self.score_pool4 = nn.Conv2d(self.backbone.channels[3], num_classes, 1)
+
+        self.score2 = nn.ConvTranspose2d(num_classes,
+                                         num_classes,
+                                         4,
+                                         stride=2,
+                                         bias=False)
+        self.score16 = nn.ConvTranspose2d(num_classes,
+                                          num_classes,
+                                          32,
+                                          stride=16,
+                                          bias=False)

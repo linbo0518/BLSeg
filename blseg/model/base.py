@@ -30,6 +30,13 @@ class SegBaseModule(nn.Module):
                                  strict=True):
         self.backbone.load_parameters(filename, map_location, strict)
 
+    def reset_classes(self, num_classes):
+        '''
+        Should be overridden by all subclasses
+        '''
+        self.num_classes = num_classes
+        raise NotImplementedError
+
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':
             return VGG16()

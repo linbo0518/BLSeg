@@ -75,3 +75,10 @@ class ModernUNet(SegBaseModule):
         d2 = self.up_block2(e2, d3)
         d1 = self.up_block1(e1, d2)
         return self.outputs(d1)
+
+    def reset_classes(self, num_classes):
+        self.num_classes = num_classes
+        self.outputs[-1] = nn.Conv2d(self.backbone.channels[0],
+                                     num_classes,
+                                     1,
+                                     bias=False)

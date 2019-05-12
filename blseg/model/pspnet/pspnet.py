@@ -41,3 +41,7 @@ class PSPNet(SegBaseModule):
                             mode='bilinear',
                             align_corners=True)
         return out
+
+    def reset_classes(self, num_classes):
+        self.num_classes = num_classes
+        self.out_conv = nn.Conv2d(512, num_classes, 1, bias=False)
