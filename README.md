@@ -48,12 +48,14 @@ You can download pre-trained parameters at [Google Drive]
 
 ### Usage
 
-import blseg package
+Import BLSeg Package
+
 ```python
 from blseg import model, loss, metric
 ```
 
-create model
+Create Model
+
 ```python
 num_classes = 21
 
@@ -63,19 +65,51 @@ net = model.PSPNet('resnet50', num_classes)
 net = model.DeepLabV3Plus('xception', num_classes)
 ```
 
-create loss
+Create Loss
+
 ```python
-criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio=0.7)
-criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio=0.7)
+ohem_ratio = 0.7
+
+criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio)
+criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio)
 criterion = DiceLoss()
 ```
 
-create metric
+Create Metric
 
 ```python
 pixacc = metric.PixelAccuracy()
 miou = metric.MeanIoU(num_classes)
 ```
+
+Model API
+
+```python
+# train backbone (default is train the entire net)
+net.train_backbone()
+# freeze backbone, only train the segmentation head
+net.freeze_backbone()
+# freeze BatchNorm layers for fine-tuning
+net.freeze_BN()
+# load pre-trained parameters
+net.load_parameters(filename, map_location=None, strict=True)
+# load pre-trained backbone parameters
+net.load_backbone_parameters(filename, map_location=None, strict=True)
+# reset segmentation classes
+net.reset_classes(num_classes)
+```
+
+Metric API
+
+```python
+# update metric
+metric.update(pred, target)
+# get current metric
+metric.get()
+# reset metric
+metric.reset()
+```
+
 ---
 
 ### Changelog
