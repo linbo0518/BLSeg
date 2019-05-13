@@ -4,8 +4,9 @@ PyTorch's Semantic Segmentation Toolbox
 
 ### Requirement
 
-* python 3.x
+* python 3
 * pytorch >= 1.0.0
+* [apex]
 
 ---
 
@@ -139,6 +140,7 @@ See [CHANGELOG]
 
 ---
 
+[apex]:https://github.com/NVIDIA/apex
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
