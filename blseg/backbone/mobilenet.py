@@ -77,7 +77,7 @@ class MobileNetV2(BackboneBaseModule):
         self.stage0 = nn.Sequential(
             conv3x3(3, 32, 2),
             nn.BatchNorm2d(32),
-            nn.ReLU6(),
+            nn.ReLU6(inplace=True),
             LinearBottleneck(32, self.channels[0], 1, 1),
         )
         self.stage1 = self._add_stage(LinearBottleneck, self.channels[0],
