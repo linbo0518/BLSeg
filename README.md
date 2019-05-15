@@ -4,8 +4,8 @@ PyTorch's Semantic Segmentation Toolbox
 
 ### Requirement
 
-* python 3
-* pytorch >= 1.0.0
+* Python 3
+* PyTorch >= 1.0.0
 
 ---
 
@@ -116,6 +116,10 @@ metric.get()
 # reset metric
 metric.reset()
 ```
+
+Note: The order of the color channels is BGR, please use `cv2.imread` to read image.
+
+Note: the mean is `(0.485, 0.456, 0.406)` and the std is `(0.229, 0.224, 0.225)`
 
 ---
 
