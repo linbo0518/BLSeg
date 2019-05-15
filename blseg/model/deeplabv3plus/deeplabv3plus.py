@@ -56,4 +56,4 @@ class DeepLabV3Plus(SegBaseModule):
 
     def reset_classes(self, num_classes):
         self.num_classes = num_classes
-        self.concat_conv[-1] = nn.Conv2d(256, num_classes, 1, bias=False),
+        self.concat_conv[-1] = nn.Conv2d(256, num_classes, 1, bias=False)
