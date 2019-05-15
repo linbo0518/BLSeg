@@ -6,7 +6,6 @@ PyTorch's Semantic Segmentation Toolbox
 
 * python 3
 * pytorch >= 1.0.0
-* [apex]
 
 ---
 
@@ -120,6 +119,16 @@ metric.reset()
 
 ---
 
+### Visualization
+
+| Original Image | Target Mask |  Predict Mask  |
+| :------------: | :---------: | :------------: |
+|   ![4_image]   |  ![4_mask]  | ![4_pred_mask] |
+|   ![7_image]   |  ![7_mask]  | ![7_pred_mask] |
+|   ![9_image]   |  ![9_mask]  | ![9_pred_mask] |
+
+---
+
 ### Changelog
 
 See [CHANGELOG]
@@ -140,7 +149,6 @@ See [CHANGELOG]
 
 ---
 
-[apex]:https://github.com/NVIDIA/apex
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
@@ -153,3 +161,13 @@ See [CHANGELOG]
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187
 [CHANGELOG]:https://github.com/linbo0518/LLSeg/blob/master/CHANGELOG.md
 [Google Drive]:https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing
+
+[4_image]:img/4_image.png
+[4_mask]:img/4_mask.png
+[4_pred_mask]:img/4_pred_mask.png
+[7_image]:img/7_image.png
+[7_mask]:img/7_mask.png
+[7_pred_mask]:img/7_pred_mask.png
+[9_image]:img/9_image.png
+[9_mask]:img/9_mask.png
+[9_pred_mask]:img/9_pred_mask.png
