@@ -159,7 +159,7 @@ See [CHANGELOG]
 [DeepLab v3+]:https://arxiv.org/abs/1802.02611
 [Modified Aligned Xception]:https://arxiv.org/abs/1802.02611
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187
-[CHANGELOG]:https://github.com/linbo0518/LLSeg/blob/master/CHANGELOG.md
+[CHANGELOG]:CHANGELOG.md
 [Google Drive]:https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing
 
 [4_image]:img/4_image.png
