@@ -26,6 +26,7 @@ PyTorch's Semantic Segmentation Toolbox
   * BCEWithLogitsLossWithOHEM
   * CrossEntropyLossWithOHEM
   * DiceLoss (only for binary classification)
+  * SoftCrossEntropyLossWithOHEM
 * Metric
   * Pixel Accuracy
   * Mean IoU
@@ -59,6 +60,7 @@ Create Model
 ```python
 num_classes = 21
 
+# Available backbone: vgg16, resnet50, mobilenetv1, mobilenetv2, xception
 net = model.FCN('vgg16', num_classes)
 net = model.ModernUNet('mobilenetv1', num_classes)
 net = model.PSPNet('resnet50', num_classes)
@@ -70,16 +72,30 @@ Create Loss
 ```python
 ohem_ratio = 0.7
 
+# Binary Cross Entropy Loss with OHEM
 criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio)
+
+# Cross Entropy Loss with OHEM
 criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio)
+
+# Dice Loss
 criterion = DiceLoss()
+
+# Soft-label Cross Entropy Loss with OHEM
+criterion = SoftCrossEntropyLossWithOHEM(ohem_ratio)
 ```
 
 Create Metric
 
 ```python
+# Pixel Accuracy
 pixacc = metric.PixelAccuracy()
+
+# Mean IoU
 miou = metric.MeanIoU(num_classes)
+
+# Mean IoU w/o background
+miou_nobg = metric.MeanIoU(num_classes, ignore_background=True)
 ```
 
 Model API

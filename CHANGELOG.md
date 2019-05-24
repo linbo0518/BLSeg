@@ -1,3 +1,10 @@
+#### 2019.05.24
+
+* add set_ohem_ratio to loss with ohem
+* add SoftCrossEntropyLossWithOHEM
+
+---
+
 #### 2019.05.12
 
 * add pre-trained parameters
