@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+import torch.nn.functional as F
 
 
 def _ohem_mask(loss, ohem_ratio):
@@ -61,3 +62,18 @@ class DiceLoss(nn.Module):
         intersection = (pred * target).sum()
         loss = 1 - (2. * intersection) / (pred.sum() + target.sum() + self.eps)
         return loss
+
+
+class SoftCrossEntropyLossWithOHEM(nn.Module):
+
+    def __init__(self, ohem_ratio=1.0, eps=1e-7):
+        super(SoftCrossEntropyLossWithOHEM, self).__init__()
+        self.ohem_ratio = ohem_ratio
+        self.eps = eps
+
+    def forward(self, pred, target):
+        pred = F.log_softmax(pred, dim=1)
+        loss = -(pred * target).sum(1)
+        mask = _ohem_mask(loss, self.ohem_ratio)
+        loss = loss * mask
+        return loss.sum() / (mask.sum() + self.eps)
