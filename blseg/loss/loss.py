@@ -77,3 +77,6 @@ class SoftCrossEntropyLossWithOHEM(nn.Module):
         mask = _ohem_mask(loss, self.ohem_ratio)
         loss = loss * mask
         return loss.sum() / (mask.sum() + self.eps)
+
+    def set_ohem_ratio(self, ohem_ratio):
+        self.ohem_ratio = ohem_ratio
