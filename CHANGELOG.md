@@ -1,7 +1,10 @@
+### Changelog
+
 #### 2019.05.24
 
 * add set_ohem_ratio to loss with ohem
 * add SoftCrossEntropyLossWithOHEM
+* add Docs
 
 ---
 

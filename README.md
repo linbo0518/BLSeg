@@ -1,5 +1,9 @@
 ## BLSeg (BaseLine Segmentation)
 
+![python]
+![git]
+![love]
+
 PyTorch's Semantic Segmentation Toolbox
 
 ### Requirement
@@ -47,98 +51,6 @@ You can download pre-trained parameters at [Google Drive]
 
 ---
 
-### Usage
-
-Import BLSeg Package
-
-```python
-from blseg import model, loss, metric
-```
-
-Create Model
-
-```python
-num_classes = 21
-
-# Available backbone: vgg16, resnet50, mobilenetv1, mobilenetv2, xception
-net = model.FCN('vgg16', num_classes)
-net = model.ModernUNet('mobilenetv1', num_classes)
-net = model.PSPNet('resnet50', num_classes)
-net = model.DeepLabV3Plus('xception', num_classes)
-```
-
-Create Loss
-
-```python
-ohem_ratio = 0.7
-
-# Binary Cross Entropy Loss with OHEM
-criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio)
-
-# Cross Entropy Loss with OHEM
-criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio)
-
-# Dice Loss
-criterion = DiceLoss()
-
-# Soft-label Cross Entropy Loss with OHEM
-criterion = SoftCrossEntropyLossWithOHEM(ohem_ratio)
-```
-
-Create Metric
-
-```python
-# Pixel Accuracy
-pixacc = metric.PixelAccuracy()
-
-# Mean IoU
-miou = metric.MeanIoU(num_classes)
-
-# Mean IoU w/o background
-miou_nobg = metric.MeanIoU(num_classes, ignore_background=True)
-```
-
-Model API
-
-```python
-# train backbone (default is train the entire net)
-net.train_backbone()
-
-# freeze backbone, only train the segmentation head
-net.freeze_backbone()
-
-# freeze BatchNorm layers for fine-tuning
-net.freeze_BN()
-
-# load pre-trained parameters
-net.load_parameters(filename, map_location=None, strict=True)
-
-# load pre-trained backbone parameters
-net.load_backbone_parameters(filename, map_location=None, strict=True)
-
-# reset segmentation classes
-net.reset_classes(num_classes)
-```
-
-Metric API
-
-```python
-# update metric
-metric.update(pred, target)
-
-# get current metric
-metric.get()
-
-# reset metric
-metric.reset()
-```
-
-Note: The order of the color channels is BGR, please use `cv2.imread` to read image.
-
-Note: the mean is `(0.485, 0.456, 0.406)` and the std is `(0.229, 0.224, 0.225)`
-
----
-
 ### Visualization
 
 | Original Image | Target Mask |  Predict Mask  |
@@ -149,9 +61,15 @@ Note: the mean is `(0.485, 0.456, 0.406)` and the std is `(0.229, 0.224, 0.225)`
 
 ---
 
+### Docs
+
+See [Docs]
+
+---
+
 ### Changelog
 
-See [CHANGELOG]
+See [Changelog]
 
 ---
 
@@ -169,6 +87,10 @@ See [CHANGELOG]
 
 ---
 
+[python]:https://img.shields.io/badge/write%20in-Python-blue.svg?logo=python
+[git]:https://img.shields.io/badge/using-Git-brightgreen.svg?logo=git
+[love]:https://img.shields.io/badge/build%20with-💖-yellow.svg
+
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
@@ -179,8 +101,10 @@ See [CHANGELOG]
 [DeepLab v3+]:https://arxiv.org/abs/1802.02611
 [Modified Aligned Xception]:https://arxiv.org/abs/1802.02611
 [Bag of Tricks]:https://arxiv.org/abs/1812.01187
-[CHANGELOG]:CHANGELOG.md
+
 [Google Drive]:https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing
+[Docs]:Docs.md
+[Changelog]:Changelog.md
 
 [4_image]:img/4_image.png
 [4_mask]:img/4_mask.png
