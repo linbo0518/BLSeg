@@ -94,7 +94,7 @@ See [Changelog]
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
-[ResNet50]:https://arxiv.org/abs/1512.03385
+[ResNet 50]:https://arxiv.org/abs/1512.03385
 [FCN]:https://arxiv.org/abs/1411.4038
 [U-Net]:https://arxiv.org/abs/1505.04597
 [PSPNet]:https://arxiv.org/abs/1612.01105
