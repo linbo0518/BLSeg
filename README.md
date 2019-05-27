@@ -17,9 +17,9 @@ PyTorch's Semantic Segmentation Toolbox
 
 * Backbone
   * [VGG16]
-  * [MobileNet v1]
-  * [MobileNet v2]
-  * [ResNet50] (Modified according to [Bag of Tricks])
+  * [MobileNet v1] (1.0)
+  * [MobileNet v2] (1.0)
+  * [ResNet 50] (Modified according to [Bag of Tricks])
   * [Modified Aligned Xception]
 * Model
   * [FCN]
