@@ -28,7 +28,7 @@ class BackboneBaseModule(nn.Module):
             self.strides[4] = 8
 
     def change_dilation(self, params):
-        assert isinstance(params, list)
+        assert isinstance(params, (tuple, list))
         assert len(params) == 5
         self._change_stage_dilation(self.stage0, params[0])
         self._change_stage_dilation(self.stage1, params[1])
