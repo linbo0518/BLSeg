@@ -8,14 +8,17 @@ from .ppm import PPM
 
 class PSPNet(SegBaseModule):
 
-    def __init__(self, backbone='resnet50', num_classes=1):
+    def __init__(self,
+                 backbone='resnet50',
+                 num_classes=21,
+                 dilations=[1, 1, 1, 2, 4]):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
         super(PSPNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
         self.backbone.change_output_stride(8)
-        self.backbone.change_dilation([1, 1, 1, 2, 4])
+        self.backbone.change_dilation(dilations)
         self.ppm = PPM(self.backbone.channels[4])
         self.ppm_conv = nn.Sequential(
             conv3x3(self.backbone.channels[4] * 2, 512),

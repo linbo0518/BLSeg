@@ -42,13 +42,16 @@ class UNet(SegBaseModule):
 
 class ModernUNet(SegBaseModule):
 
-    def __init__(self, backbone='resnet50', num_classes=1):
+    def __init__(self,
+                 backbone='resnet50',
+                 num_classes=21,
+                 dilations=[1, 1, 1, 1, 1]):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
         super(ModernUNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
-
+        self.backbone.change_dilation(dilations)
         self.up_block4 = ModernUpBlock(self.backbone.channels[4],
                                        self.backbone.channels[3])
         self.up_block3 = ModernUpBlock(self.backbone.channels[3],

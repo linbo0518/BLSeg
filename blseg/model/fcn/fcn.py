@@ -5,13 +5,16 @@ from ..base import SegBaseModule
 
 class FCN(SegBaseModule):
 
-    def __init__(self, backbone='vgg16', num_classes=1):
+    def __init__(self,
+                 backbone='vgg16',
+                 num_classes=21,
+                 dilations=[1, 1, 1, 1, 1]):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
         super(FCN, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
-
+        self.backbone.change_dilation(dilations)
         self.backbone.stage0[0].padding = (self.backbone.stage0[0].padding[0] +
                                            99,
                                            self.backbone.stage0[0].padding[1] +

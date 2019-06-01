@@ -8,14 +8,17 @@ from .aspp import ASPP
 
 class DeepLabV3Plus(SegBaseModule):
 
-    def __init__(self, backbone='xception', num_classes=1):
+    def __init__(self,
+                 backbone='xception',
+                 num_classes=21,
+                 dilations=[1, 1, 1, 1, 2]):
         assert backbone in [
             'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
         ]
         super(DeepLabV3Plus, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
         self.backbone.change_output_stride(16)
-        self.backbone.change_dilation([1, 1, 1, 1, 2])
+        self.backbone.change_dilation(dilations)
         self.aspp = ASPP(self.backbone.channels[4])
         self.low_level_conv = nn.Sequential(
             nn.Conv2d(self.backbone.channels[1], 48, 1, bias=False),
