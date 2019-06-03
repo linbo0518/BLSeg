@@ -1,4 +1,6 @@
-### Docs
+# Docs
+
+---
 
 * Note: The order of the color channels is **BGR**, please use `cv2.imread` to read image.
 * Note: the **mean** is `(0.485, 0.456, 0.406)` and the **std** is `(0.229, 0.224, 0.225)`
@@ -9,7 +11,8 @@ Import BLSeg Package
 from blseg import model, loss, metric
 ```
 
-#### Initialize
+
+## Initialize
 
 Create Model
 
@@ -54,7 +57,8 @@ miou = metric.MeanIoU(num_classes)
 miou_nobg = metric.MeanIoU(num_classes, ignore_background=True)
 ```
 
-#### Usage
+
+## Usage
 
 Model API
 
@@ -97,5 +101,3 @@ miou.get()
 # reset metric
 miou.reset()
 ```
-
----
