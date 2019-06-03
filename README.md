@@ -1,4 +1,6 @@
-## BLSeg (BaseLine Segmentation)
+# BLSeg (BaseLine Segmentation)
+
+---
 
 ![python]
 ![git]
@@ -6,14 +8,14 @@
 
 PyTorch's Semantic Segmentation Toolbox
 
-### Requirement
+
+## Requirement
 
 * Python 3
 * PyTorch >= 1.0.0
 
----
 
-### Supported Module
+## Supported Module
 
 * Backbone
   * [VGG16]
@@ -49,9 +51,8 @@ Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for trai
 
 You can download pre-trained parameters at [Google Drive]
 
----
 
-### Visualization
+## Visualization
 
 | Original Image | Target Mask |  Predict Mask  |
 | :------------: | :---------: | :------------: |
@@ -59,21 +60,18 @@ You can download pre-trained parameters at [Google Drive]
 |   ![7_image]   |  ![7_mask]  | ![7_pred_mask] |
 |   ![9_image]   |  ![9_mask]  | ![9_pred_mask] |
 
----
 
-### Docs
+## Docs
 
 See [Docs]
 
----
 
-### Changelog
+## Changelog
 
 See [Changelog]
 
----
 
-### References
+## References
 
 * Simonyan, Karen, and Andrew Zisserman. "Very deep convolutional networks for large-scale image recognition." arXiv preprint arXiv:1409.1556 (2014).
 * Howard, Andrew G., et al. "Mobilenets: Efficient convolutional neural networks for mobile vision applications." arXiv preprint arXiv:1704.04861 (2017).
