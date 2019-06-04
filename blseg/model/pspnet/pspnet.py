@@ -13,7 +13,8 @@ class PSPNet(SegBaseModule):
                  num_classes=21,
                  dilations=[1, 1, 1, 2, 4]):
         assert backbone in [
-            'vgg16', 'resnet50', 'mobilenetv1', 'mobilenetv2', 'xception'
+            'vgg16', 'resnet34', 'resnet50', 'mobilenetv1', 'mobilenetv2',
+            'xception'
         ]
         super(PSPNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)

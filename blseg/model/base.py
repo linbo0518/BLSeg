@@ -42,6 +42,8 @@ class SegBaseModule(nn.Module):
             return VGG16()
         elif backbone_name == 'mobilenetv1':
             return MobileNetV1()
+        elif backbone_name == 'resnet34':
+            return ResNet34()
         elif backbone_name == 'resnet50':
             return ResNet50S()
         elif backbone_name == 'mobilenetv2':
