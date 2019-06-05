@@ -43,7 +43,7 @@ class UNet(SegBaseModule):
 class ModernUNet(SegBaseModule):
 
     def __init__(self,
-                 backbone='resnet50',
+                 backbone='resnet34',
                  num_classes=21,
                  dilations=[1, 1, 1, 1, 1]):
         assert backbone in [
