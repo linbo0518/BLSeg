@@ -1,6 +1,5 @@
 # Docs
 
----
 
 * Note: The order of the color channels is **BGR**, please use `cv2.imread` to read image.
 * Note: the **mean** is `(0.485, 0.456, 0.406)` and the **std** is `(0.229, 0.224, 0.225)`
@@ -19,9 +18,11 @@ Create Model
 ```Python
 num_classes = 21
 
-# Available backbone: vgg16, resnet50, mobilenetv1, mobilenetv2, xception
+# Available backbone: 
+# vgg16, resnet34, resnet50, se_resnet34, se_resnet50, 
+# mobilenet_v1, mobilenet_v2, xception
 net = model.FCN('vgg16', num_classes)
-net = model.ModernUNet('mobilenetv1', num_classes)
+net = model.ModernUNet('mobilenet_v1', num_classes)
 net = model.PSPNet('resnet50', num_classes)
 net = model.DeepLabV3Plus('xception', num_classes)
 ```
