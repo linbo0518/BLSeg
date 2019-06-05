@@ -1,6 +1,11 @@
 # Changelog
 
----
+
+## 2019.06.05
+
+* add dilations param to model's initialization method
+* add ResNet34 backbone
+* add SE module into ResNet
 
 ## 2019.05.24
 

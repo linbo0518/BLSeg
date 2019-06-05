@@ -20,7 +20,10 @@ PyTorch's Semantic Segmentation Toolbox
   * [VGG16]
   * [MobileNet v1] (1.0)
   * [MobileNet v2] (1.0)
+  * [ResNet 34]
   * [ResNet 50] (Modified according to [Bag of Tricks])
+  * [SE ResNet 34]
+  * [SE ResNet 50]
   * [Modified Aligned Xception]
 * Model
   * [FCN]
@@ -43,7 +46,10 @@ Each model can choose any backbone without any modification
 |           **VGG16**           | &radic; |  &radic;  |  &radic;   |     &radic;     |
 |       **MobileNet v1**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
 |       **MobileNet v2**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|         **ResNet34**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
 |         **ResNet50**          | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|        **SE ResNet34**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
+|        **SE ResNet50**        | &radic; |  &radic;  |  &radic;   |     &radic;     |
 | **Modified Aligned Xception** | &radic; |  &radic;  |  &radic;   |     &radic;     |
 
 Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for training and 1449 images for validation.
@@ -76,6 +82,7 @@ See [Changelog]
 * Howard, Andrew G., et al. "Mobilenets: Efficient convolutional neural networks for mobile vision applications." arXiv preprint arXiv:1704.04861 (2017).
 * Sandler, Mark, et al. "Mobilenetv2: Inverted residuals and linear bottlenecks." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2018.
 * He, Kaiming, et al. "Deep residual learning for image recognition." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
+* Hu, Jie, Li Shen, and Gang Sun. "Squeeze-and-excitation networks." Proceedings of the IEEE conference on computer vision and pattern recognition. 2018.
 * Long, Jonathan, Evan Shelhamer, and Trevor Darrell. "Fully convolutional networks for semantic segmentation." Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.
 * Ronneberger, Olaf, Philipp Fischer, and Thomas Brox. "U-net: Convolutional networks for biomedical image segmentation." International Conference on Medical image computing and computer-assisted intervention. Springer, Cham, 2015.
 * Zhao, Hengshuang, et al. "Pyramid scene parsing network." Proceedings of the IEEE conference on computer vision and pattern recognition. 2017.
@@ -91,7 +98,10 @@ See [Changelog]
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
+[ResNet 34]:https://arxiv.org/abs/1512.03385
 [ResNet 50]:https://arxiv.org/abs/1512.03385
+[SE ResNet 34]:https://arxiv.org/abs/1709.01507
+[SE ResNet 50]:https://arxiv.org/abs/1709.01507
 [FCN]:https://arxiv.org/abs/1411.4038
 [U-Net]:https://arxiv.org/abs/1505.04597
 [PSPNet]:https://arxiv.org/abs/1612.01105
