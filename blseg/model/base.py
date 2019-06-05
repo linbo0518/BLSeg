@@ -40,13 +40,17 @@ class SegBaseModule(nn.Module):
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':
             return VGG16()
-        elif backbone_name == 'mobilenetv1':
+        elif backbone_name == 'mobilenet_v1':
             return MobileNetV1()
         elif backbone_name == 'resnet34':
             return ResNet34()
+        elif backbone_name == 'se_resnet34':
+            return ResNet34(use_se=True)
         elif backbone_name == 'resnet50':
             return ResNet50S()
-        elif backbone_name == 'mobilenetv2':
+        elif backbone_name == 'se_resnet50':
+            return ResNet50S(use_se=True)
+        elif backbone_name == 'mobilenet_v2':
             return MobileNetV2()
         elif backbone_name == 'xception':
             return ModifiedAlignedXception()

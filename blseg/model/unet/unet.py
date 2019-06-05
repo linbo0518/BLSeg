@@ -47,20 +47,24 @@ class ModernUNet(SegBaseModule):
                  num_classes=21,
                  dilations=[1, 1, 1, 1, 1]):
         assert backbone in [
-            'vgg16', 'resnet34', 'resnet50', 'mobilenetv1', 'mobilenetv2',
-            'xception'
+            'vgg16', 'resnet34', 'resnet50', 'se_resnet34', 'se_resnet50',
+            'mobilenet_v1', 'mobilenet_v2', 'xception'
         ]
+        if backbone in ['se_resnet34', 'se_resnet50']:
+            use_se = True
+        else:
+            use_se = False
         super(ModernUNet, self).__init__(num_classes)
         self.backbone = self._get_backbone(backbone)
         self.backbone.change_dilation(dilations)
         self.up_block4 = ModernUpBlock(self.backbone.channels[4],
-                                       self.backbone.channels[3])
+                                       self.backbone.channels[3], use_se)
         self.up_block3 = ModernUpBlock(self.backbone.channels[3],
-                                       self.backbone.channels[2])
+                                       self.backbone.channels[2], use_se)
         self.up_block2 = ModernUpBlock(self.backbone.channels[2],
-                                       self.backbone.channels[1])
+                                       self.backbone.channels[1], use_se)
         self.up_block1 = ModernUpBlock(self.backbone.channels[1],
-                                       self.backbone.channels[0])
+                                       self.backbone.channels[0], use_se)
         self.outputs = nn.Sequential(
             ModernUpConv(self.backbone.channels[0], self.backbone.channels[0]),
             nn.Conv2d(self.backbone.channels[0], num_classes, 1, bias=False),

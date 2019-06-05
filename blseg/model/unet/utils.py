@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from ...backbone.utils import conv3x3
-from ...backbone.resnet import ResidualBlock
+from ...backbone.resnet import BasicBlock
 
 
 class DownBlock(nn.Module):
@@ -64,7 +64,7 @@ class ModernUpConv(nn.Module):
         super(ModernUpConv, self).__init__()
         self.scale_factor = scale_factor
         self.interpolate_conv = nn.Sequential(
-            conv3x3(in_ch, out_ch),
+            nn.Conv2d(in_ch, out_ch, 1, bias=False),
             nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
         )
@@ -79,10 +79,10 @@ class ModernUpConv(nn.Module):
 
 class ModernUpBlock(nn.Module):
 
-    def __init__(self, in_ch, out_ch):
+    def __init__(self, in_ch, out_ch, use_se=False):
         super(ModernUpBlock, self).__init__()
         self.up_conv = ModernUpConv(in_ch, out_ch)
-        self.up_block = ResidualBlock(out_ch * 2, out_ch, 1)
+        self.up_block = BasicBlock(out_ch * 2, out_ch, 1, use_se=use_se)
 
     def forward(self, encoded, x):
         x = self.up_conv(x)
