@@ -1,18 +1,21 @@
 # BLSeg (BaseLine Segmentation)
 
-
-![python]
-![git]
 ![love]
 
 PyTorch's Semantic Segmentation Toolbox
 
+- [BLSeg (BaseLine Segmentation)](#blseg-baseline-segmentation)
+  - [Requirement](#requirement)
+  - [Supported Module](#supported-module)
+  - [Visualization](#visualization)
+  - [Docs](#docs)
+  - [Changelog](#changelog)
+  - [References](#references)
 
 ## Requirement
 
 * Python 3
 * PyTorch >= 1.0.0
-
 
 ## Supported Module
 
@@ -56,7 +59,6 @@ Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for trai
 
 You can download pre-trained parameters at [Google Drive]
 
-
 ## Visualization
 
 | Original Image | Target Mask |  Predict Mask  |
@@ -65,16 +67,13 @@ You can download pre-trained parameters at [Google Drive]
 |   ![7_image]   |  ![7_mask]  | ![7_pred_mask] |
 |   ![9_image]   |  ![9_mask]  | ![9_pred_mask] |
 
-
 ## Docs
 
 See [Docs]
 
-
 ## Changelog
 
 See [Changelog]
-
 
 ## References
 
@@ -91,9 +90,7 @@ See [Changelog]
 
 ---
 
-[python]:https://img.shields.io/badge/write%20in-Python-blue.svg?logo=python
-[git]:https://img.shields.io/badge/using-Git-brightgreen.svg?logo=git
-[love]:https://img.shields.io/badge/build%20with-💖-yellow.svg
+[love]:https://img.shields.io/badge/💖-build%20with%20love-blue.svg?style=for-the-badge
 
 [VGG16]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
