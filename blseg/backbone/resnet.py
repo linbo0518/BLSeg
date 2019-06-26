@@ -35,10 +35,9 @@ class BasicBlock(nn.Module):
         if self.use_se:
             self.se = nn.Sequential(
                 nn.AdaptiveAvgPool2d((1, 1)),
-                Flatten(1),
-                nn.Linear(out_ch, out_ch // 16, bias=False),
+                nn.Conv2d(out_ch, out_ch // 16, 1, bias=False),
                 nn.ReLU(inplace=True),
-                nn.Linear(out_ch // 16, out_ch, bias=False),
+                nn.Conv2d(out_ch // 16, out_ch, 1, bias=False),
                 nn.Sigmoid(),
             )
 
@@ -52,7 +51,7 @@ class BasicBlock(nn.Module):
 
         if self.use_se:
             attention = self.se(x)
-            x *= attention.unsqueeze_(-1).unsqueeze_(-1)
+            x *= attention
 
         if self.do_downsample:
             residual = self.residual(residual)
@@ -86,10 +85,9 @@ class ResidualBlock(nn.Module):
         if self.use_se:
             self.se = nn.Sequential(
                 nn.AdaptiveAvgPool2d((1, 1)),
-                Flatten(1),
-                nn.Linear(out_ch, out_ch // 16, bias=False),
+                nn.Conv2d(out_ch, out_ch // 16, 1, bias=False),
                 nn.ReLU(inplace=True),
-                nn.Linear(out_ch // 16, out_ch, bias=False),
+                nn.Conv2d(out_ch // 16, out_ch, 1, bias=False),
                 nn.Sigmoid(),
             )
 
@@ -106,7 +104,7 @@ class ResidualBlock(nn.Module):
 
         if self.use_se:
             attention = self.se(x)
-            x *= attention.unsqueeze_(-1).unsqueeze_(-1)
+            x *= attention
 
         if self.do_downsample:
             residual = self.residual(residual)
