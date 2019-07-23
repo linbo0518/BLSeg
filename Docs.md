@@ -1,6 +1,5 @@
 # Docs
 
-
 * Note: The order of the color channels is **BGR**, please use `cv2.imread` to read image.
 * Note: the **mean** is `(0.485, 0.456, 0.406)` and the **std** is `(0.229, 0.224, 0.225)`
 
@@ -10,7 +9,6 @@ Import BLSeg Package
 from blseg import model, loss, metric
 ```
 
-
 ## Initialize
 
 Create Model
@@ -18,8 +16,8 @@ Create Model
 ```Python
 num_classes = 21
 
-# Available backbone: 
-# vgg16, resnet34, resnet50, se_resnet34, se_resnet50, 
+# Available backbone:
+# vgg16, resnet34, resnet50, se_resnet34, se_resnet50,
 # mobilenet_v1, mobilenet_v2, xception
 net = model.FCN('vgg16', num_classes)
 net = model.ModernUNet('mobilenet_v1', num_classes)
@@ -53,11 +51,7 @@ pixacc = metric.PixelAccuracy()
 
 # Mean IoU
 miou = metric.MeanIoU(num_classes)
-
-# Mean IoU w/o background
-miou_nobg = metric.MeanIoU(num_classes, ignore_background=True)
 ```
-
 
 ## Usage
 
@@ -96,8 +90,11 @@ Metric API
 # update metric
 miou.update(pred, target)
 
-# get current metric
+# get Mean IoU w/ background
 miou.get()
+
+# get Mean IoU w/o background
+miou.get(ignore_background=True)
 
 # reset metric
 miou.reset()
