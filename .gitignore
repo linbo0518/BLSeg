@@ -5,6 +5,8 @@
 ### VisualStudioCode ###
 .vscode/
 
+### PyCharm ###
+.idea/
 
 ### Python ###
 __pycache__/
