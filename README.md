@@ -34,7 +34,7 @@ PyTorch's Semantic Segmentation Toolbox
   - [U-Net]
   - [PSPNet]
   - [DeepLab v3+]
-  - [GCN]
+  - [GCN] (Large Kernel Matters)
 - Loss
   - BCEWithLogitsLossWithOHEM
   - CrossEntropyLossWithOHEM
