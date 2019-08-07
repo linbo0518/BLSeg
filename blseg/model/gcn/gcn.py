@@ -9,7 +9,7 @@ class GCN(SegBaseModule):
     def __init__(self,
                  backbone='resnet50',
                  num_classes=21,
-                 dilations=[1, 1, 1, 1, 1],
+                 dilations=(1, 1, 1, 1, 1),
                  k=9):
         assert backbone in [
             'vgg16', 'resnet34', 'resnet50', 'se_resnet34', 'se_resnet50',

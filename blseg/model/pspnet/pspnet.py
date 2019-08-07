@@ -11,7 +11,7 @@ class PSPNet(SegBaseModule):
     def __init__(self,
                  backbone='resnet50',
                  num_classes=21,
-                 dilations=[1, 1, 1, 2, 4]):
+                 dilations=(1, 1, 1, 2, 4)):
         assert backbone in [
             'vgg16', 'resnet34', 'resnet50', 'se_resnet34', 'se_resnet50',
             'mobilenet_v1', 'mobilenet_v2', 'xception'
