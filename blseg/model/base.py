@@ -11,6 +11,9 @@ class SegBaseModule(nn.Module):
     def train_backbone(self):
         for param in self.backbone.parameters():
             param.requires_grad = True
+        for m in self.modules():
+            if isinstance(m, nn.BatchNorm2d):
+                m.train()
 
     def freeze_backbone(self):
         for param in self.backbone.parameters():
