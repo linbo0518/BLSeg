@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from ...backbone.utils import conv3x3
 from ..base import SegBaseModule
-from .utils import DownBlock, UpBlock, UpConv, ModernUpBlock, ModernUpConv
+from .utils import DownBlock, UpBlock, ModernUpBlock, ModernUpConv
 
 
 class UNet(SegBaseModule):
