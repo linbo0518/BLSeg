@@ -1,5 +1,10 @@
 # Changelog
 
+## 2020.05.14
+
+- code cleanup
+- minor bug fix
+
 ## 2019.08.07
 
 - add Large Kernel Matters(Global Convolutional Network)
