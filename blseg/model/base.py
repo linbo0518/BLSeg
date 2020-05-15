@@ -4,7 +4,6 @@ from ..backbone import *
 
 
 class SegBaseModule(nn.Module):
-
     def __init__(self, num_classes=1):
         super(SegBaseModule, self).__init__()
         self.num_classes = num_classes
@@ -16,6 +15,9 @@ class SegBaseModule(nn.Module):
     def freeze_backbone(self):
         for param in self.backbone.parameters():
             param.requires_grad = False
+        for m in self.modules():
+            if isinstance(m, nn.BatchNorm2d):
+                m.eval()
 
     def freeze_BN(self):
         for m in self.modules():
@@ -26,7 +28,9 @@ class SegBaseModule(nn.Module):
         self.load_state_dict(torch.load(filename, map_location=map_location),
                              strict=strict)
 
-    def load_backbone_parameters(self, filename, map_location=None,
+    def load_backbone_parameters(self,
+                                 filename,
+                                 map_location=None,
                                  strict=True):
         self.backbone.load_parameters(filename, map_location, strict)
 
