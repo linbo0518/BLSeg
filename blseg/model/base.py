@@ -98,7 +98,7 @@ class SegBaseModule(nn.Module):
         else:
             raise NotImplementedError
 
-    def _init_params(self, method="msra", zero_gamma=False):
+    def _init_params(self, method="msra", zero_gamma=True):
         method = method.lower()
         assert method in ("xavier", "msra")
         for m in self.modules():
