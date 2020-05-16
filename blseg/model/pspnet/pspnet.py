@@ -27,7 +27,7 @@ class PSPNet(SegBaseModule):
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.1),
         )
-        self.out_conv = nn.Conv2d(512, num_classes, 1, bias=False)
+        self.out_conv = nn.Conv2d(512, num_classes, 1)
 
         self._init_params()
 
@@ -48,4 +48,4 @@ class PSPNet(SegBaseModule):
 
     def reset_classes(self, num_classes):
         self.num_classes = num_classes
-        self.out_conv = nn.Conv2d(512, num_classes, 1, bias=False)
+        self.out_conv = nn.Conv2d(512, num_classes, 1)

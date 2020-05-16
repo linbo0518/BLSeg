@@ -23,7 +23,7 @@ class UNet(SegBaseModule):
         self.up_block3 = UpBlock(512, 256)
         self.up_block2 = UpBlock(256, 128)
         self.up_block1 = UpBlock(128, 64)
-        self.outputs = nn.Conv2d(64, num_classes, 1, bias=False)
+        self.outputs = nn.Conv2d(64, num_classes, 1)
 
         self._init_params()
 
@@ -39,6 +39,9 @@ class UNet(SegBaseModule):
         d1 = self.up_block1(e1, d2)
         return self.outputs(d1)
 
+    def reset_classes(self, num_classes):
+        self.num_classes = num_classes
+        self.outputs = nn.Conv2d(64, num_classes, 1)
 
 class ModernUNet(SegBaseModule):
 
@@ -67,7 +70,7 @@ class ModernUNet(SegBaseModule):
                                        self.backbone.channels[0], use_se)
         self.outputs = nn.Sequential(
             ModernUpConv(self.backbone.channels[0], self.backbone.channels[0]),
-            nn.Conv2d(self.backbone.channels[0], num_classes, 1, bias=False),
+            nn.Conv2d(self.backbone.channels[0], num_classes, 1),
         )
 
         self._init_params()
@@ -86,7 +89,4 @@ class ModernUNet(SegBaseModule):
 
     def reset_classes(self, num_classes):
         self.num_classes = num_classes
-        self.outputs[-1] = nn.Conv2d(self.backbone.channels[0],
-                                     num_classes,
-                                     1,
-                                     bias=False)
+        self.outputs[-1] = nn.Conv2d(self.backbone.channels[0], num_classes, 1)
