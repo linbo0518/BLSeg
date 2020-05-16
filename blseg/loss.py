@@ -2,6 +2,13 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+__all__ = [
+    "BCEWithLogitsLossWithOHEM",
+    "CrossEntropyLossWithOHEM",
+    "DiceLoss",
+    "SoftCrossEntropyLossWithOHEM",
+]
+
 
 def _ohem_mask(loss, ohem_ratio):
     with torch.no_grad():
@@ -12,7 +19,6 @@ def _ohem_mask(loss, ohem_ratio):
 
 
 class BCEWithLogitsLossWithOHEM(nn.Module):
-
     def __init__(self, ohem_ratio=1.0, pos_weight=None, eps=1e-7):
         super(BCEWithLogitsLossWithOHEM, self).__init__()
         self.criterion = nn.BCEWithLogitsLoss(reduction='none',
@@ -31,8 +37,10 @@ class BCEWithLogitsLossWithOHEM(nn.Module):
 
 
 class CrossEntropyLossWithOHEM(nn.Module):
-
-    def __init__(self, ohem_ratio=1.0, weight=None, ignore_index=-100,
+    def __init__(self,
+                 ohem_ratio=1.0,
+                 weight=None,
+                 ignore_index=-100,
                  eps=1e-7):
         super(CrossEntropyLossWithOHEM, self).__init__()
         self.criterion = nn.CrossEntropyLoss(weight=weight,
@@ -52,7 +60,6 @@ class CrossEntropyLossWithOHEM(nn.Module):
 
 
 class DiceLoss(nn.Module):
-
     def __init__(self, eps=1e-7):
         super(DiceLoss, self).__init__()
         self.eps = eps
@@ -65,7 +72,6 @@ class DiceLoss(nn.Module):
 
 
 class SoftCrossEntropyLossWithOHEM(nn.Module):
-
     def __init__(self, ohem_ratio=1.0, eps=1e-7):
         super(SoftCrossEntropyLossWithOHEM, self).__init__()
         self.ohem_ratio = ohem_ratio
