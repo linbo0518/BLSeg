@@ -3,9 +3,10 @@ from torch import nn
 from .utils import conv3x3, DepthwiseSeparableConv
 from .base import BackboneBaseModule
 
+__all__ = ["ModifiedAlignedXception"]
+
 
 class XceptionBlock(nn.Module):
-
     def __init__(self,
                  in_ch,
                  out_chs,
@@ -69,7 +70,6 @@ class XceptionBlock(nn.Module):
 
 
 class ModifiedAlignedXception(BackboneBaseModule):
-
     def __init__(self):
         super(ModifiedAlignedXception, self).__init__()
         self.channels = [64, 128, 256, 728, 2048]
@@ -121,7 +121,8 @@ class ModifiedAlignedXception(BackboneBaseModule):
                           residual_type='conv',
                           first_relu=True),
             XceptionBlock(self.channels[4] - 1024, [
-                self.channels[4] - 512, self.channels[4] - 512, self.channels[4]
+                self.channels[4] - 512, self.channels[4] - 512,
+                self.channels[4]
             ],
                           stride=1,
                           residual_type='none',

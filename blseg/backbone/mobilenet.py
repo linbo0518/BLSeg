@@ -3,9 +3,13 @@ from torch import nn
 from .utils import conv3x3, DepthwiseSeparableConv
 from .base import BackboneBaseModule
 
+__all__ = [
+    "MobileNetV1",
+    "MobileNetV2",
+]
+
 
 class LinearBottleneck(nn.Module):
-
     def __init__(self, in_ch, out_ch, t, stride):
         super(LinearBottleneck, self).__init__()
         self.do_residual = in_ch == out_ch and stride == 1
@@ -31,7 +35,6 @@ class LinearBottleneck(nn.Module):
 
 
 class MobileNetV1(BackboneBaseModule):
-
     def __init__(self):
         super(MobileNetV1, self).__init__()
         self.channels = [64, 128, 256, 512, 1024]
@@ -70,7 +73,6 @@ class MobileNetV1(BackboneBaseModule):
 
 
 class MobileNetV2(BackboneBaseModule):
-
     def __init__(self):
         super(MobileNetV2, self).__init__()
         self.channels = [16, 24, 32, 96, 1280]

@@ -2,9 +2,10 @@ import torch
 from torch import nn
 from .base import BackboneBaseModule
 
+__all__ = ["VGG16"]
+
 
 class VGG16(BackboneBaseModule):
-
     def __init__(self):
         super(VGG16, self).__init__()
         self.channels = [64, 128, 256, 512, 512]

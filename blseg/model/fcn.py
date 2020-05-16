@@ -1,10 +1,11 @@
 import torch
 from torch import nn
-from ..base import SegBaseModule
+from .base import SegBaseModule
+
+__all__ = ["FCN"]
 
 
 class FCN(SegBaseModule):
-
     def __init__(self,
                  backbone='vgg16',
                  num_classes=21,
@@ -56,8 +57,8 @@ class FCN(SegBaseModule):
         score2 = self.score2(out)
 
         score_pool4 = self.score_pool4(pool4_out)
-        score_pool4 = score_pool4[:, :, 5:5 + score2.size(2), 5:5 +
-                                  score2.size(3)]
+        score_pool4 = score_pool4[:, :, 5:5 + score2.size(2),
+                                  5:5 + score2.size(3)]
 
         score16 = self.score16(score2 + score_pool4)
         x = score16[:, :, 27:27 + x.size(2), 27:27 + x.size(3)]

@@ -3,6 +3,11 @@ from torch import nn
 from .utils import conv3x3, Flatten
 from .base import BackboneBaseModule
 
+__all__ = [
+    "ResNet34",
+    "ResNet50S",
+]
+
 
 def _add_stage(block, in_ch, out_ch, stride, use_se, repeat_time):
     assert repeat_time > 0 and isinstance(repeat_time, int)
@@ -13,7 +18,6 @@ def _add_stage(block, in_ch, out_ch, stride, use_se, repeat_time):
 
 
 class BasicBlock(nn.Module):
-
     def __init__(self, in_ch, out_ch, stride, expansion=1, use_se=False):
         assert out_ch % expansion == 0
         mid_ch = int(out_ch / expansion)
@@ -61,7 +65,6 @@ class BasicBlock(nn.Module):
 
 
 class ResidualBlock(nn.Module):
-
     def __init__(self, in_ch, out_ch, stride, expansion=4, use_se=False):
         assert out_ch % expansion == 0
         mid_ch = int(out_ch / expansion)
@@ -115,7 +118,6 @@ class ResidualBlock(nn.Module):
 
 
 class ResNet34(BackboneBaseModule):
-
     def __init__(self, use_se=False):
         super(ResNet34, self).__init__()
         self.channels = [64, 64, 128, 256, 512]
@@ -129,12 +131,12 @@ class ResNet34(BackboneBaseModule):
         for layer in _add_stage(BasicBlock, self.channels[0], self.channels[1],
                                 1, use_se, 3):
             self.stage1.add_module(str(len(self.stage1)), layer)
-        self.stage2 = _add_stage(BasicBlock, self.channels[1], self.channels[2],
-                                 2, use_se, 4)
-        self.stage3 = _add_stage(BasicBlock, self.channels[2], self.channels[3],
-                                 2, use_se, 6)
-        self.stage4 = _add_stage(BasicBlock, self.channels[3], self.channels[4],
-                                 2, use_se, 3)
+        self.stage2 = _add_stage(BasicBlock, self.channels[1],
+                                 self.channels[2], 2, use_se, 4)
+        self.stage3 = _add_stage(BasicBlock, self.channels[2],
+                                 self.channels[3], 2, use_se, 6)
+        self.stage4 = _add_stage(BasicBlock, self.channels[3],
+                                 self.channels[4], 2, use_se, 3)
 
         self._init_params()
 
@@ -154,7 +156,6 @@ class ResNet34(BackboneBaseModule):
 
 
 class ResNet50S(BackboneBaseModule):
-
     def __init__(self, use_se=False):
         super(ResNet50S, self).__init__()
         self.channels = [64, 256, 512, 1024, 2048]
