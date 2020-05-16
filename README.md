@@ -7,7 +7,7 @@ PyTorch's Semantic Segmentation Toolbox
 - [BLSeg (BaseLine Segmentation)](#blseg-baseline-segmentation)
   - [Requirement](#requirement)
   - [Supported Module](#supported-module)
-  - [Parameters](#parameters)
+  - [Analysis](#analysis)
   - [Visualization](#visualization)
   - [Docs](#docs)
   - [Changelog](#changelog)
@@ -41,13 +41,14 @@ PyTorch's Semantic Segmentation Toolbox
   - DiceLoss (only for binary classification)
   - SoftCrossEntropyLossWithOHEM
 - Metric
+  - Loss Meter
   - Pixel Accuracy
   - Mean IoU
 - Others
   - Xavier/MSRA initialization (support zero gamma in last BatchNorm)
   - Pre-trained weight
   - Mixed precision training
-  - Customize OHEM ratio
+  - Online Hard Example Mining
   - Precise BatchNorm
   - Freeze/train Backbone model
   - Freeze/train BatchNorm layers
@@ -69,18 +70,33 @@ Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for trai
 
 You can download pre-trained parameters at [Google Drive]
 
-## Parameters
+## Analysis
+
+- Parameters
 
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
 | :---------------------------: | ------: | --------: | ---------: | --------------: | ------: |
-|           **VGG16**           | 134.41M |    25.26M |     19.70M |          20.15M |  14.99M |
-|       **MobileNet v1**        | 225.66M |    14.01M |     13.70M |          12.44M |   3.58M |
-|       **MobileNet v2**        | 276.06M |     2.67M |     15.67M |          13.35M |   2.51M |
-|         **ResNet34**          | 140.98M |    24.08M |     26.27M |          26.71M |  21.48M |
-|         **ResNet50**          | 451.51M |    66.35M |     46.61M |          40.37M |  24.24M |
-|        **SE ResNet34**        | 141.14M |    24.25M |     26.43M |          26.87M |  21.64M |
-|        **SE ResNet50**        | 454.02M |    69.03M |     49.12M |          42.88M |  26.76M |
-| **Modified Aligned Xception** | 465.85M |    57.46M |     60.95M |          54.70M |  38.46M |
+|           **VGG16**           | 134.82M |    25.26M |     19.71M |          20.15M |  15.36M |
+|       **MobileNet v1**        | 226.07M |    14.01M |     13.71M |          12.44M |   4.04M |
+|       **MobileNet v2**        | 276.46M |     2.68M |     15.67M |          13.36M |   2.88M |
+|         **ResNet34**          | 141.38M |    24.08M |     26.28M |          26.72M |  21.76M |
+|         **ResNet50**          | 451.92M |    66.35M |     46.61M |          40.37M |  25.09M |
+|        **SE ResNet34**        | 141.54M |    24.25M |     26.44M |          26.87M |  21.92M |
+|        **SE ResNet50**        | 454.44M |    69.03M |     49.13M |          42.89M |  27.61M |
+| **Modified Aligned Xception** | 466.25M |    57.46M |     60.95M |          54.71M |  39.17M |
+
+- Multiply-accumulate operations (MACs)
+
+|       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
+| :---------------------------: | ------: | --------: | ---------: | --------------: | ------: |
+|           **VGG16**           | 348.11G |   114.79G |    121.38G |         121.38G |  85.42G |
+|       **MobileNet v1**        | 228.52G |    37.83G |     52.41G |          52.41G |   8.24G |
+|       **MobileNet v2**        | 240.77G |     3.22G |     58.00G |          58.00G |   5.80G |
+|         **ResNet34**          | 230.69G |    34.99G |    109.88G |         109.88G |  23.65G |
+|         **ResNet50**          | 326.75G |   133.01G |    178.64G |         178.64G |  29.44G |
+|        **SE ResNet34**        | 230.70G |    35.00G |    109.90G |         109.90G |  23.66G |
+|        **SE ResNet50**        | 326.81G |   133.05G |    178.72G |         178.72G |  29.47G |
+| **Modified Aligned Xception** | 359.83G |    83.46G |    237.01G |         237.01G |  44.88G |
 
 ## Visualization
 
