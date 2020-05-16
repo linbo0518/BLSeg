@@ -6,7 +6,7 @@
 Import BLSeg Package
 
 ```Python
-from blseg import model, loss, metric
+from blseg import nn
 ```
 
 ## Initialize
@@ -19,10 +19,10 @@ num_classes = 21
 # Available backbone:
 # vgg16, resnet34, resnet50, se_resnet34, se_resnet50,
 # mobilenet_v1, mobilenet_v2, xception
-net = model.FCN('vgg16', num_classes)
-net = model.ModernUNet('mobilenet_v1', num_classes)
-net = model.PSPNet('resnet50', num_classes)
-net = model.DeepLabV3Plus('xception', num_classes)
+net = nn.FCN('vgg16', num_classes)
+net = nn.ModernUNet('mobilenet_v1', num_classes)
+net = nn.PSPNet('resnet50', num_classes)
+net = nn.DeepLabV3Plus('xception', num_classes)
 ```
 
 Create Loss
@@ -31,26 +31,29 @@ Create Loss
 ohem_ratio = 0.7
 
 # Binary Cross Entropy Loss with OHEM
-criterion = loss.BCEWithLogitsLossWithOHEM(ohem_ratio)
+criterion = nn.BCEWithLogitsLossWithOHEM(ohem_ratio)
 
 # Cross Entropy Loss with OHEM
-criterion = loss.CrossEntropyLossWithOHEM(ohem_ratio)
+criterion = nn.CrossEntropyLossWithOHEM(ohem_ratio)
 
 # Dice Loss
-criterion = loss.DiceLoss()
+criterion = nn.DiceLoss()
 
 # Soft-label Cross Entropy Loss with OHEM
-criterion = loss.SoftCrossEntropyLossWithOHEM(ohem_ratio)
+criterion = nn.SoftCrossEntropyLossWithOHEM(ohem_ratio)
 ```
 
 Create Metric
 
 ```Python
+# Loss Meter
+loss_meter = nn.LossMeter()
+
 # Pixel Accuracy
-pixacc = metric.PixelAccuracy()
+pixacc = nn.PixelAccuracy()
 
 # Mean IoU
-miou = metric.MeanIoU(num_classes)
+miou = nn.MeanIoU(num_classes)
 ```
 
 ## Usage
