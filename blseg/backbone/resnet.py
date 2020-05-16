@@ -24,6 +24,7 @@ class BasicBlock(nn.Module):
         self.bn1 = nn.BatchNorm2d(mid_ch)
         self.conv2 = conv3x3(mid_ch, out_ch, stride=1)
         self.bn2 = nn.BatchNorm2d(out_ch)
+        self.bn2.last_bn = True
         self.relu = nn.ReLU(inplace=True)
 
         if self.do_downsample:
@@ -73,6 +74,7 @@ class ResidualBlock(nn.Module):
         self.bn2 = nn.BatchNorm2d(mid_ch)
         self.conv3 = nn.Conv2d(mid_ch, out_ch, 1, bias=False)
         self.bn3 = nn.BatchNorm2d(out_ch)
+        self.bn3.last_bn = True
         self.relu = nn.ReLU(inplace=True)
 
         if self.do_downsample:

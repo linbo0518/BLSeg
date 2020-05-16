@@ -14,9 +14,11 @@ class XceptionBlock(nn.Module):
                  first_relu=True,
                  dilation=1):
         assert isinstance(out_chs, list)
-        assert residual_type == 'conv' or residual_type == 'sum' or residual_type == 'none'
+        assert residual_type in ("conv", "sum", "none")
         super(XceptionBlock, self).__init__()
-
+        last_bn = True
+        if residual_type == "none":
+            last_bn = False
         xception_block = []
         if first_relu:
             xception_block.append(nn.ReLU())
@@ -38,7 +40,8 @@ class XceptionBlock(nn.Module):
                                    stride=stride,
                                    dilation=dilation,
                                    relu6=False,
-                                   last_relu=False)
+                                   last_relu=False,
+                                   last_bn=last_bn)
         ])
         if residual_type == 'none':
             xception_block.append(nn.ReLU(inplace=True))

@@ -14,7 +14,8 @@ class DepthwiseSeparableConv(nn.Module):
                  stride=1,
                  dilation=1,
                  relu6=True,
-                 last_relu=True):
+                 last_relu=True,
+                 last_bn=False):
         super(DepthwiseSeparableConv, self).__init__()
         self.dwconv = nn.Conv2d(in_ch,
                                 in_ch,
@@ -27,6 +28,8 @@ class DepthwiseSeparableConv(nn.Module):
         self.bn1 = nn.BatchNorm2d(in_ch)
         self.pwconv = nn.Conv2d(in_ch, out_ch, 1, bias=False)
         self.bn2 = nn.BatchNorm2d(out_ch)
+        if last_bn:
+            self.bn2.last_bn = True
         if relu6:
             self.relu = nn.ReLU6(inplace=True)
         else:

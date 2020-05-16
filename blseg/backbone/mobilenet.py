@@ -16,7 +16,8 @@ class LinearBottleneck(nn.Module):
                                              out_ch,
                                              stride=stride,
                                              relu6=True,
-                                             last_relu=False)
+                                             last_relu=False,
+                                             last_bn=self.do_residual)
 
     def forward(self, x):
         residual = x
