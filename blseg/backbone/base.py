@@ -49,14 +49,20 @@ class BackboneBaseModule(nn.Module):
         '''
         raise NotImplementedError
 
-    def _init_params(self):
+    def _init_params(self, method="msra", zero_gamma=False):
+        method = method.lower()
+        assert method in ("xavier", "msra")
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight,
-                                        mode='fan_out',
-                                        nonlinearity='relu')
+                if method == "xavier":
+                    nn.init.xavier_uniform_(m.weight)
+                if method == "msra":
+                    nn.init.kaiming_normal_(m.weight,
+                                            mode='fan_out',
+                                            nonlinearity='relu')
                 if m.bias is not None:
-                    nn.init.constant_(m.bias, 0)
+                    nn.init.constant_(m.bias, 0.0)
             if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
+                last_bn = zero_gamma and hasattr(m, "last_bn")
+                nn.init.constant_(m.weight, 0.0 if last_bn else 1.0)
+                nn.init.constant_(m.bias, 0.0)
