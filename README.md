@@ -43,8 +43,16 @@ PyTorch's Semantic Segmentation Toolbox
 - Metric
   - Pixel Accuracy
   - Mean IoU
-
-Each model can choose any backbone without any modification
+- Others
+  - Xavier/MSRA initialization (support zero gamma in last BatchNorm)
+  - Pre-trained weight
+  - Mixed precision training
+  - Customize OHEM ratio
+  - Precise BatchNorm
+  - Freeze/train Backbone model
+  - Freeze/train BatchNorm layers
+  
+Each segmentation model can combine with any backbone without any modifications.
 
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
 | :---------------------------: | :-----: | :-------: | :--------: | :-------------: | :-----: |

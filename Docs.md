@@ -64,8 +64,14 @@ net.train_backbone()
 # freeze backbone, only train the segmentation head
 net.freeze_backbone()
 
+# train BatchNorm layers
+net.train_batch_norm()
+
 # freeze BatchNorm layers for fine-tuning
-net.freeze_BN()
+net.freeze_batch_norm(freeze_running_mean_var=True, freeze_gamma_beta=True):
+
+# freeze all trainable layers except BatchNorm layers for better running mean and variance value
+net.precise_batch_norm()
 
 # load pre-trained parameters
 net.load_parameters(filename, map_location=None, strict=True)

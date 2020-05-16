@@ -1,5 +1,12 @@
 # Changelog
 
+## 2020.05.15
+
+- add precise batch norm
+- xavier and msra initialization
+- zero gamma for last bn in residual block
+- add bias term for output classifer
+
 ## 2020.05.14
 
 - code cleanup
