@@ -1,9 +1,36 @@
 import torch
 import numpy as np
 
+__all__ = [
+    "LossMeter",
+    "PixelAccuracy",
+    "MeanIoU",
+]
+
+
+class LossMeter(object):
+    def __init__(self):
+        self.total_loss = 0
+        self.num_loss = 0
+
+    def update(self, loss):
+        if isinstance(loss, torch.Tensor):
+            loss = loss.item()
+        self.total_loss += loss
+        self.num_loss += 1
+
+    def get(self):
+        if self.num_loss == 0:
+            return 0
+        else:
+            return self.total_loss / self.num_loss
+
+    def reset(self):
+        self.total_loss = 0
+        self.num_loss = 0
+
 
 class PixelAccuracy(object):
-
     def __init__(self, ignore_index=-100, eps=1e-7):
         self.num_correct = 0
         self.num_instance = 0
@@ -30,7 +57,6 @@ class PixelAccuracy(object):
 
 
 class MeanIoU(object):
-
     def __init__(self, num_classes, eps=1e-7):
         if num_classes == 1:
             self.num_classes = num_classes + 1
