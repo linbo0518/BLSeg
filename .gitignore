@@ -1,7 +1,6 @@
 ### macOS ###
 .DS_Store
 
-
 ### VisualStudioCode ###
 .vscode/
 
@@ -17,9 +16,9 @@ __pycache__/
 # pyenv
 .python-version
 
-
 ### Project ###
 test/
 train/
 models/
 notebook/
+release.sh
