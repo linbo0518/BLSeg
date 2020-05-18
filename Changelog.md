@@ -1,5 +1,17 @@
 # Changelog
 
+## Todo
+
+- [ ] TorchScript Deploy
+- [ ] MeanIoU Modernization
+- [ ] IntermediateFeatureMapGetter for aux training
+
+## 2020.05.17
+
+- move all modules to nn namespace
+- add LossMeter
+- update model Params and MACs counting
+
 ## 2020.05.15
 
 - add precise batch norm
