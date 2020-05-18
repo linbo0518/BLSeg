@@ -1,15 +1,18 @@
 # BLSeg (BaseLine Segmentation)
 
 ![love](https://img.shields.io/badge/💖-build%20with%20love-blue.svg?style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/linbo0518/BLSeg?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/linbo0518/BLSeg?style=for-the-badge)
 
 PyTorch's Semantic Segmentation Toolbox
 
 - [BLSeg (BaseLine Segmentation)](#blseg-baseline-segmentation)
   - [Requirement](#requirement)
+  - [Quick Start](#quick-start)
+  - [Documentation](#documentation)
   - [Supported Module](#supported-module)
   - [Analysis](#analysis)
   - [Visualization](#visualization)
-  - [Documentation](#documentation)
   - [Changelog](#changelog)
   - [References](#references)
 
@@ -17,6 +20,28 @@ PyTorch's Semantic Segmentation Toolbox
 
 - Python 3
 - PyTorch >= 1.0.0
+
+## Quick Start
+
+Star and clone this repo then copy `blseg` into your project directory
+
+```sh
+git clone https://github.com/linbo0518/BLSeg.git
+cp -r BLSeg/blseg path/to/your/project/
+```
+
+use `sys` to append `blseg` into your import path
+
+```python
+import sys
+sys.path.append('path/to/blseg')
+
+from blseg import nn
+```
+
+## Documentation
+
+For more information, please see [Documentation](Documentation.md)
 
 ## Supported Module
 
@@ -105,10 +130,6 @@ You can download pre-trained parameters at [Google Drive](https://drive.google.c
 | ![4_image](img/4_image.png) | ![4_mask](img/4_mask.png) | ![4_pred_mask](img/4_pred_mask.png) |
 | ![7_image](img/7_image.png) | ![7_mask](img/7_mask.png) | ![7_pred_mask](img/7_pred_mask.png) |
 | ![9_image](img/9_image.png) | ![9_mask](img/9_mask.png) | ![9_pred_mask](img/9_pred_mask.png) |
-
-## Documentation
-
-See [Documentation](Documentation.md)
 
 ## Changelog
 

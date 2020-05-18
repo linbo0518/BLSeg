@@ -6,6 +6,9 @@
 Import BLSeg Package
 
 ```Python
+import sys
+sys.path.append('path/to/blseg')
+
 from blseg import nn
 ```
 
