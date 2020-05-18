@@ -9,7 +9,7 @@ PyTorch's Semantic Segmentation Toolbox
   - [Supported Module](#supported-module)
   - [Analysis](#analysis)
   - [Visualization](#visualization)
-  - [Docs](#docs)
+  - [Documentation](#documentation)
   - [Changelog](#changelog)
   - [References](#references)
 
@@ -68,7 +68,7 @@ Each segmentation model can combine with any backbone without any modifications.
 
 Model pre-trained on augmented PASCAL VOC2012 dataset with 10582 images for training and 1449 images for validation.
 
-You can download pre-trained parameters at [Google Drive]
+You can download pre-trained parameters at [Google Drive](https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing)
 
 ## Analysis
 
@@ -106,13 +106,13 @@ You can download pre-trained parameters at [Google Drive]
 | ![7_image](img/7_image.png) | ![7_mask](img/7_mask.png) | ![7_pred_mask](img/7_pred_mask.png) |
 | ![9_image](img/9_image.png) | ![9_mask](img/9_mask.png) | ![9_pred_mask](img/9_pred_mask.png) |
 
-## Docs
+## Documentation
 
-See [Docs]
+See [Documentation](Documentation.md)
 
 ## Changelog
 
-See [Changelog]
+See [Changelog](Changelog.md)
 
 ## References
 
@@ -145,7 +145,3 @@ See [Changelog]
 [PSPNet]:https://arxiv.org/abs/1612.01105
 [DeepLab v3+]:https://arxiv.org/abs/1802.02611
 [GCN]:https://arxiv.org/abs/1703.02719
-
-[Google Drive]:https://drive.google.com/drive/folders/1i1vhf-JQ_K-5SzS7OJQ9ns3wHCEwoSuD?usp=sharing
-[Docs]:Docs.md
-[Changelog]:Changelog.md

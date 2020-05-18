@@ -1,4 +1,4 @@
-# Docs
+# Documentation
 
 * Note: The order of the color channels is **BGR**, please use `cv2.imread` to read image.
 * Note: the **mean** is `(0.485, 0.456, 0.406)` and the **std** is `(0.229, 0.224, 0.225)`
@@ -68,7 +68,7 @@ net.train_backbone()
 net.freeze_backbone()
 
 # train BatchNorm layers
-net.train_batch_norm()
+net.train_batch_norm(train_dataloader)
 
 # freeze BatchNorm layers for fine-tuning
 net.freeze_batch_norm(freeze_running_mean_var=True, freeze_gamma_beta=True):
