@@ -68,13 +68,13 @@ net.train_backbone()
 net.freeze_backbone()
 
 # train BatchNorm layers
-net.train_batch_norm(train_dataloader)
+net.train_batch_norm()
 
 # freeze BatchNorm layers for fine-tuning
 net.freeze_batch_norm(freeze_running_mean_var=True, freeze_gamma_beta=True):
 
 # freeze all trainable layers except BatchNorm layers for better running mean and variance value
-net.precise_batch_norm()
+net.precise_batch_norm(train_dataloader)
 
 # load pre-trained parameters
 net.load_parameters(filename, map_location=None, strict=True)
