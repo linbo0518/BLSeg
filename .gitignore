@@ -9,6 +9,9 @@
 
 ### Python ###
 __pycache__/
+*.egg-info
+build
+dist
 
 # Jupyter Notebook
 .ipynb_checkpoints
