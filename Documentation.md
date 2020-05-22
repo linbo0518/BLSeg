@@ -5,10 +5,7 @@
 
 Import BLSeg Package
 
-```Python
-import sys
-sys.path.append('path/to/blseg')
-
+```python
 from blseg import nn
 ```
 
@@ -16,7 +13,7 @@ from blseg import nn
 
 Create Model
 
-```Python
+```python
 num_classes = 21
 
 # Available backbone:
@@ -30,7 +27,7 @@ net = nn.DeepLabV3Plus('xception', num_classes)
 
 Create Loss
 
-```Python
+```python
 ohem_ratio = 0.7
 
 # Binary Cross Entropy Loss with OHEM
@@ -48,7 +45,7 @@ criterion = nn.SoftCrossEntropyLossWithOHEM(ohem_ratio)
 
 Create Metric
 
-```Python
+```python
 # Loss Meter
 loss_meter = nn.LossMeter()
 
@@ -63,7 +60,7 @@ miou = nn.MeanIoU(num_classes)
 
 Model API
 
-```Python
+```python
 # train backbone (default is train the entire net)
 net.train_backbone()
 
@@ -91,14 +88,14 @@ net.reset_classes(num_classes)
 
 Loss API
 
-```Python
+```python
 # change OHEM ratio
 criterion.set_ohem_ratio(ohem_ratio)
 ```
 
 Metric API
 
-```Python
+```python
 # update metric
 miou.update(pred, target)
 

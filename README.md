@@ -23,20 +23,10 @@ PyTorch's Semantic Segmentation Toolbox
 
 ## Quick Start
 
-Star and clone this repo then copy `blseg` into your project directory
+Execute the following command in your terminal
 
 ```sh
-git clone https://github.com/linbo0518/BLSeg.git
-cp -r BLSeg/blseg path/to/your/project/
-```
-
-use `sys` to append `blseg` into your import path
-
-```python
-import sys
-sys.path.append('path/to/blseg')
-
-from blseg import nn
+pip install --upgrade git+https://github.com/linbo0518/BLSeg.git
 ```
 
 ## Documentation
