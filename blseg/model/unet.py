@@ -5,6 +5,8 @@ from ..backbone.utils import conv3x3
 from ..backbone.resnet import BasicBlock
 from .base import SegBaseModule
 
+__all__ = ["ModernUNet"]
+
 
 class DownBlock(nn.Module):
     def __init__(self, in_ch, out_ch):
@@ -130,8 +132,8 @@ class ModernUNet(SegBaseModule):
                  num_classes=21,
                  dilations=(1, 1, 1, 1, 1)):
         assert backbone in [
-            'vgg16', 'resnet34', 'resnet50', 'se_resnet34', 'se_resnet50',
-            'mobilenet_v1', 'mobilenet_v2', 'xception'
+            'vgg16', 'vgg19', 'resnet34', 'resnet50', 'se_resnet34',
+            'se_resnet50', 'mobilenet_v1', 'mobilenet_v2', 'xception'
         ]
         if backbone in ['se_resnet34', 'se_resnet50']:
             use_se = True

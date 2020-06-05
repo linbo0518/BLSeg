@@ -81,6 +81,8 @@ class SegBaseModule(nn.Module):
     def _get_backbone(self, backbone_name):
         if backbone_name == 'vgg16':
             return VGG16()
+        elif backbone_name == 'vgg19':
+            return VGG19()
         elif backbone_name == 'mobilenet_v1':
             return MobileNetV1()
         elif backbone_name == 'resnet34':

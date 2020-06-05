@@ -64,8 +64,8 @@ class GCN(SegBaseModule):
                  dilations=(1, 1, 1, 1, 1),
                  k=9):
         assert backbone in [
-            'vgg16', 'resnet34', 'resnet50', 'se_resnet34', 'se_resnet50',
-            'mobilenet_v1', 'mobilenet_v2', 'xception'
+            'vgg16', 'vgg19', 'resnet34', 'resnet50', 'se_resnet34',
+            'se_resnet50', 'mobilenet_v1', 'mobilenet_v2', 'xception'
         ]
         super(GCN, self).__init__(num_classes)
         self.k = k
