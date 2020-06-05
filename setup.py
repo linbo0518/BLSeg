@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "20200521"
+VERSION = "20200605"
 README = open("README.md").read()
 REQUIREMENTS = ["torch", "numpy"]
 
