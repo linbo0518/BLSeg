@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from .utils import conv3x3, Flatten
+from .utils import conv3x3
 from .base import BackboneBaseModule
 
 __all__ = [

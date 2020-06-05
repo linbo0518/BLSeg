@@ -45,14 +45,3 @@ class DepthwiseSeparableConv(nn.Module):
         if self.last_relu:
             x = self.relu(x)
         return x
-
-
-class Flatten(nn.Module):
-
-    def __init__(self, start_dim=0, end_dim=-1):
-        super(Flatten, self).__init__()
-        self.start_dim = start_dim
-        self.end_dim = end_dim
-
-    def forward(self, x):
-        return torch.flatten(x, self.start_dim, self.end_dim)

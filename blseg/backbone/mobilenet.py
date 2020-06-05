@@ -9,6 +9,22 @@ __all__ = [
 ]
 
 
+def _v1_add_stage(in_ch, out_ch, repeat_time):
+    assert repeat_time > 0 and isinstance(repeat_time, int)
+    layers = [DepthwiseSeparableConv(in_ch, out_ch, 2, relu6=False)]
+    for _ in range(repeat_time - 1):
+        layers.append(DepthwiseSeparableConv(out_ch, out_ch, relu6=False))
+    return nn.Sequential(*layers)
+
+
+def _v2_add_stage(block, in_ch, out_ch, t, stride, repeat_time):
+    assert repeat_time > 0 and isinstance(repeat_time, int)
+    layers = [block(in_ch, out_ch, t, stride)]
+    for _ in range(repeat_time - 1):
+        layers.append(block(out_ch, out_ch, t, 1))
+    return nn.Sequential(*layers)
+
+
 class LinearBottleneck(nn.Module):
     def __init__(self, in_ch, out_ch, t, stride):
         super(LinearBottleneck, self).__init__()
@@ -45,10 +61,10 @@ class MobileNetV1(BackboneBaseModule):
             nn.ReLU(inplace=True),
             DepthwiseSeparableConv(32, self.channels[0], 1, relu6=False),
         )
-        self.stage1 = self._add_stage(self.channels[0], self.channels[1], 2)
-        self.stage2 = self._add_stage(self.channels[1], self.channels[2], 2)
-        self.stage3 = self._add_stage(self.channels[2], self.channels[3], 6)
-        self.stage4 = self._add_stage(self.channels[3], self.channels[4], 2)
+        self.stage1 = _v1_add_stage(self.channels[0], self.channels[1], 2)
+        self.stage2 = _v1_add_stage(self.channels[1], self.channels[2], 2)
+        self.stage3 = _v1_add_stage(self.channels[2], self.channels[3], 6)
+        self.stage4 = _v1_add_stage(self.channels[3], self.channels[4], 2)
 
         self._init_params()
 
@@ -59,13 +75,6 @@ class MobileNetV1(BackboneBaseModule):
         x = self.stage3(x)  # 512, 1/16
         x = self.stage4(x)  # 1024, 1/32
         return x
-
-    def _add_stage(self, in_ch, out_ch, repeat_time):
-        assert repeat_time > 0 and isinstance(repeat_time, int)
-        layers = [DepthwiseSeparableConv(in_ch, out_ch, 2, relu6=False)]
-        for _ in range(repeat_time - 1):
-            layers.append(DepthwiseSeparableConv(out_ch, out_ch, relu6=False))
-        return nn.Sequential(*layers)
 
     def _change_downsample(self, params):
         self.stage3[0].dwconv.stride = (params[0], params[0])
@@ -83,21 +92,20 @@ class MobileNetV2(BackboneBaseModule):
             nn.ReLU6(inplace=True),
             LinearBottleneck(32, self.channels[0], 1, 1),
         )
-        self.stage1 = self._add_stage(LinearBottleneck, self.channels[0],
-                                      self.channels[1], 6, 2, 2)
-        self.stage2 = self._add_stage(LinearBottleneck, self.channels[1],
-                                      self.channels[2], 6, 2, 3)
-        self.stage3 = self._add_stage(LinearBottleneck, self.channels[2],
-                                      self.channels[2] * 2, 6, 2, 4)
-        for layer in self._add_stage(LinearBottleneck, self.channels[2] * 2,
-                                     self.channels[3], 6, 1, 3):
+        self.stage1 = _v2_add_stage(LinearBottleneck, self.channels[0],
+                                    self.channels[1], 6, 2, 2)
+        self.stage2 = _v2_add_stage(LinearBottleneck, self.channels[1],
+                                    self.channels[2], 6, 2, 3)
+        self.stage3 = _v2_add_stage(LinearBottleneck, self.channels[2],
+                                    self.channels[2] * 2, 6, 2, 4)
+        for layer in _v2_add_stage(LinearBottleneck, self.channels[2] * 2,
+                                   self.channels[3], 6, 1, 3):
             self.stage3.add_module(str(len(self.stage3)), layer)
 
-        self.stage4 = self._add_stage(LinearBottleneck, self.channels[3],
-                                      int(self.channels[4] / 8), 6, 2, 3)
-        for layer in self._add_stage(LinearBottleneck,
-                                     int(self.channels[4] / 8),
-                                     int(self.channels[4] / 4), 6, 1, 1):
+        self.stage4 = _v2_add_stage(LinearBottleneck, self.channels[3],
+                                    int(self.channels[4] / 8), 6, 2, 3)
+        for layer in _v2_add_stage(LinearBottleneck, int(self.channels[4] / 8),
+                                   int(self.channels[4] / 4), 6, 1, 1):
             self.stage4.add_module(str(len(self.stage4)), layer)
         self.stage4.add_module(
             str(len(self.stage4)),
@@ -119,13 +127,6 @@ class MobileNetV2(BackboneBaseModule):
         x = self.stage3(x)  # 96, 1/16
         x = self.stage4(x)  # 1280, 1/32
         return x
-
-    def _add_stage(self, block, in_ch, out_ch, t, stride, repeat_time):
-        assert repeat_time > 0 and isinstance(repeat_time, int)
-        layers = [block(in_ch, out_ch, t, stride)]
-        for _ in range(repeat_time - 1):
-            layers.append(block(out_ch, out_ch, t, 1))
-        return nn.Sequential(*layers)
 
     def _change_downsample(self, params):
         self.stage3[0].dsconv.dwconv.stride = (params[0], params[0])
