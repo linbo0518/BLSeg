@@ -37,6 +37,7 @@ For more information, please see [Documentation](Documentation.md)
 
 - Backbone
   - [VGG16]
+  - [VGG19]
   - [MobileNet v1] (1.0)
   - [MobileNet v2] (1.0)
   - [ResNet 34]
@@ -73,6 +74,7 @@ Each segmentation model can combine with any backbone without any modifications.
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
 | :---------------------------: | :-----: | :-------: | :--------: | :-------------: | :-----: |
 |           **VGG16**           | &radic; |  &radic;  |  &radic;   |     &radic;     | &radic; |
+|           **VGG19**           | &radic; |  &radic;  |  &radic;   |     &radic;     | &radic; |
 |       **MobileNet v1**        | &radic; |  &radic;  |  &radic;   |     &radic;     | &radic; |
 |       **MobileNet v2**        | &radic; |  &radic;  |  &radic;   |     &radic;     | &radic; |
 |         **ResNet34**          | &radic; |  &radic;  |  &radic;   |     &radic;     | &radic; |
@@ -92,6 +94,7 @@ You can download pre-trained parameters at [Google Drive](https://drive.google.c
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
 | :---------------------------: | ------: | --------: | ---------: | --------------: | ------: |
 |           **VGG16**           | 134.82M |    25.26M |     19.71M |          20.15M |  15.36M |
+|           **VGG19**           | 140.13M |    30.57M |     25.02M |          25.46M |  20.67M |
 |       **MobileNet v1**        | 226.07M |    14.01M |     13.71M |          12.44M |   4.04M |
 |       **MobileNet v2**        | 276.46M |     2.68M |     15.67M |          13.36M |   2.88M |
 |         **ResNet34**          | 141.38M |    24.08M |     26.28M |          26.72M |  21.76M |
@@ -105,6 +108,7 @@ You can download pre-trained parameters at [Google Drive](https://drive.google.c
 |       Backbone \ Model        | **FCN** | **U-Net** | **PSPNet** | **DeepLab v3+** | **GCN** |
 | :---------------------------: | ------: | --------: | ---------: | --------------: | ------: |
 |           **VGG16**           | 348.11G |   114.79G |    121.38G |         121.38G |  85.42G |
+|           **VGG19**           | 390.27G |   136.54G |   103.21Gs |         127.44G | 107.17G |
 |       **MobileNet v1**        | 228.52G |    37.83G |     52.41G |          52.41G |   8.24G |
 |       **MobileNet v2**        | 240.77G |     3.22G |     58.00G |          58.00G |   5.80G |
 |         **ResNet34**          | 230.69G |    34.99G |    109.88G |         109.88G |  23.65G |
@@ -142,6 +146,7 @@ See [Changelog](Changelog.md)
 ---
 
 [VGG16]:https://arxiv.org/abs/1409.1556
+[VGG19]:https://arxiv.org/abs/1409.1556
 [MobileNet v1]:https://arxiv.org/abs/1704.04861
 [MobileNet v2]:https://arxiv.org/abs/1801.04381
 [ResNet 34]:https://arxiv.org/abs/1512.03385

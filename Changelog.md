@@ -6,6 +6,12 @@
 - [ ] MeanIoU Modernization
 - [ ] IntermediateFeatureMapGetter for aux training
 
+## 2020.06.05
+
+- add VGG19
+- simplify nn package
+- code cleanup
+
 ## 2020.05.17
 
 - move all modules to nn namespace

@@ -17,8 +17,8 @@ Create Model
 num_classes = 21
 
 # Available backbone:
-# vgg16, resnet34, resnet50, se_resnet34, se_resnet50,
-# mobilenet_v1, mobilenet_v2, xception
+# vgg16, vgg19, resnet34, resnet50, se_resnet34,
+# se_resnet50, mobilenet_v1, mobilenet_v2, xception
 net = nn.FCN('vgg16', num_classes)
 net = nn.ModernUNet('mobilenet_v1', num_classes)
 net = nn.PSPNet('resnet50', num_classes)
