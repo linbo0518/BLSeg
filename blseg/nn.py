@@ -1,5 +1,5 @@
-from blseg import *
-# from .backbone import *
+from blseg import BackboneBaseModule, SegBaseModule
+from .backbone import *
 from .model import *
 from .loss import *
 from .metric import *
